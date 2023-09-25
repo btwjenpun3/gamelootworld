@@ -1,0 +1,150 @@
+<?php
+
+namespace App\Http\Controllers\Fetch;
+
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\UrlController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
+use App\Models\Post;
+use Illuminate\Support\Facades\Storage;
+
+class FetchController extends Controller
+{
+    private $url;
+
+    public function __construct() {
+        $this->url = 'https://www.gamerpower.com/api/giveaways';
+    }
+
+    public function fetchGameContentFromUpstream() {
+        //!!---- Ambil Konten Berupa JSON ----!!//
+        $content = HTTP::get($this->url);
+        $urlController = new UrlController();
+
+        //!!---- Decode JSON ----!!
+        $data = json_decode($content);        
+
+        //!!---- Ambil Key Terakhir dari Arraay yang Tersedia ----!!
+        $lastKey = count($data) - 1;
+
+        //!!---- Looping dan Masukkan ke Database Posts ----!!
+        for($x = 0; $x <= $lastKey; $x++) {
+            //!!---- Ambil Informasi Gambar ----!!
+            $imageUrl = $data[$x]->image;
+            $imageData = file_get_contents($imageUrl);
+            $imageName = basename($imageUrl);
+            $imagePath = 'post/images/' . $imageName;
+            Storage::disk('public')->put($imagePath, $imageData);
+
+            //!!---- Masukkan Data ke Database ----!!
+            Post::create([
+                'source_id' => $data[$x]->id,
+                'title' => $data[$x]->title,
+                'worth' => str_replace('$', '', $data[$x]->worth),
+                'thumbnail' => $data[$x]->thumbnail,
+                'image' => $imageName,
+                'description' => $data[$x]->description,
+                'instructions' => $data[$x]->instructions,
+                'open_giveaway_url' => $data[$x]->open_giveaway_url,
+                'redirect_url' => $urlController->generateUpstreamUrlToOwnUrl($data[$x]->open_giveaway_url),
+                'type' => $data[$x]->type,
+                'platforms' => $data[$x]->platforms,
+                'published_date' => $data[$x]->published_date,
+                'end_date' => $data[$x]->end_date,
+                'status' => $data[$x]->status,
+                'slug' => Str::slug($data[$x]->title)
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'success'
+        ]);
+    }
+
+    public function updateGameContentFromUpstream() {
+        $getMaxId = Post::max('source_id');        
+        $findDateFromMaxId = Post::where('source_id', $getMaxId)->first();
+        $getDateFromMaxId = $findDateFromMaxId->published_date;
+        $content = HTTP::get($this->url);
+        $urlController = new UrlController();
+        $data = json_decode($content);
+        $filteredData = array_filter($data, function ($item) use ($getDateFromMaxId) {            
+            return strtotime($item->published_date) > strtotime($getDateFromMaxId);           
+        });
+        $lastKey = count($filteredData) - 1;
+        for($x = 0; $x <= $lastKey; $x++) {
+            //!!---- Ambil Informasi Gambar ----!!
+            $imageUrl = $data[$x]->image;
+            $imageData = file_get_contents($imageUrl);
+            $imageName = basename($imageUrl);
+            $imagePath = 'post/images/' . $imageName;
+            Storage::disk('public')->put($imagePath, $imageData);
+
+            Post::create([
+                'source_id' => $data[$x]->id,
+                'title' => $data[$x]->title,
+                'worth' => str_replace('$', '', $data[$x]->worth),
+                'thumbnail' => $data[$x]->thumbnail,
+                'image' => $imageName,
+                'description' => $data[$x]->description,
+                'instructions' => $data[$x]->instructions,
+                'open_giveaway_url' => $data[$x]->open_giveaway_url,
+                'redirect_url' => $urlController->generateUpstreamUrlToOwnUrl($data[$x]->open_giveaway_url),                
+                'type' => $data[$x]->type,
+                'platforms' => $data[$x]->platforms,
+                'published_date' => $data[$x]->published_date,
+                'end_date' => $data[$x]->end_date,
+                'status' => $data[$x]->status,
+                'slug' => Str::slug($data[$x]->title)
+            ]);
+        }
+
+        return redirect()->route('indexAdminPosts')->with('success', 'Post successfully updated');
+    }
+
+    // public function reUpdateGameContentFromUpstream() {
+    //     $getMinId = Post::min('source_id');        
+    //     $findDateFromMinId = Post::where('source_id', $getMinId)->first();
+    //     $getDateFromMinId = $findDateFromMinId->published_date;
+    //     $content = HTTP::get($this->url);
+    //     $urlController = new UrlController();
+    //     $data = json_decode($content);
+    //     $filteredData = array_filter($data, function ($item) use ($getDateFromMinId) {            
+    //         return strtotime($item->published_date) < strtotime($getDateFromMinId);           
+    //     });
+    //     $firstKey = array_keys($filteredData)[0];        
+    //     end($filteredData);        
+    //     $lastKey = key($filteredData);
+    //     dd($filteredData);        
+    //     for($x = $firstKey; $x <= $lastKey; $x++) {
+    //         //!!---- Ambil Informasi Gambar ----!!
+    //         $imageUrl = $data[$x]->image;
+    //         $imageData = file_get_contents($imageUrl);
+    //         $imageName = basename($imageUrl);
+    //         $imagePath = public_path('post/images/').$imageName;
+    //         file_put_contents($imagePath, $imageData);
+
+    //         Post::create([
+    //             'source_id' => $data[$x]->id,
+    //             'title' => $data[$x]->title,
+    //             'worth' => str_replace('$', '', $data[$x]->worth),
+    //             'thumbnail' => $data[$x]->thumbnail,
+    //             'image' => $imageName,
+    //             'description' => $data[$x]->description,
+    //             'instructions' => $data[$x]->instructions,
+    //             'open_giveaway_url' => $data[$x]->open_giveaway_url,
+    //             'redirect_url' => $urlController->generateUpstreamUrlToOwnUrl($data[$x]->open_giveaway_url),                
+    //             'type' => $data[$x]->type,
+    //             'platforms' => $data[$x]->platforms,
+    //             'published_date' => $data[$x]->published_date,
+    //             'end_date' => $data[$x]->end_date,
+    //             'status' => $data[$x]->status,
+    //             'slug' => Str::slug($data[$x]->title)
+    //         ]);
+    //     }
+
+    //     return redirect()->route('indexAdminPosts')->with('success', 'Post successfully updated');
+    // }
+}
