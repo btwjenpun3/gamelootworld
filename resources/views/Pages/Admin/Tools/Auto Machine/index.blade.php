@@ -125,7 +125,7 @@
                         <p>If you run it on running site, your data will be duplicate and you cannot undo this!</p>
                     </div>
                     <div class="ms-4 mb-4">
-                        @if ($status->status == 'updated')
+                        @if (isset($status->status))
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-md-3 mt-2">
