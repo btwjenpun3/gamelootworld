@@ -27,7 +27,8 @@
       rel="stylesheet"
     />
     <!-- Icons. Uncomment required icon fonts -->
-    <link rel="stylesheet" href="/admin/assets/vendor/fonts/boxicons.css" />    <!-- Core CSS -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Core CSS -->
     <link rel="stylesheet" href="/admin/assets/vendor/css/core.css" class="template-customizer-core-css" />
     <link rel="stylesheet" href="/admin/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="/admin/assets/css/demo.css" />

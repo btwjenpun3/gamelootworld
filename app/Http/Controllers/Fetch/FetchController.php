@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Fetch;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UrlController;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use App\Models\Post;
+use App\Models\FetchStatus;
 use Illuminate\Support\Facades\Storage;
+
 
 class FetchController extends Controller
 {
@@ -55,12 +58,15 @@ class FetchController extends Controller
                 'end_date' => $data[$x]->end_date,
                 'status' => $data[$x]->status,
                 'slug' => Str::slug($data[$x]->title)
-            ]);
+            ]);            
         }
-
+        FetchStatus::create([
+                'status' => 'updated'
+            ]);
         return response()->json([
-            'message' => 'success'
-        ]);
+            'code' => 200,
+            'message' => "Post successfully updated"
+        ], 200);
     }
 
     public function updateGameContentFromUpstream() {
@@ -100,9 +106,26 @@ class FetchController extends Controller
                 'slug' => Str::slug($data[$x]->title)
             ]);
         }
-
-        return redirect()->route('indexAdminPosts')->with('success', 'Post successfully updated');
+        return response()->json([
+            'code' => 200,
+            'message' => "Post successfully updated"
+        ], 200);
     }
+    
+    public function fetchGameContentUsingId(Request $request) {
+        $content = HTTP::get('https://www.gamerpower.com/api/giveaway?id='.$request->source_id);
+        if($content->status() == Response::HTTP_NOT_FOUND) {
+            return response()->json([
+                'code' => 404,
+                'message' => 'Giveaway with ID ' . $request->source_id . ' not found. Please check your Source ID.'
+            ], 404);
+        } else {
+            $urlController = new UrlController();
+            $data = json_decode($content);  
+            $data->redirect_url = $urlController->generateUpstreamUrlToOwnUrl($data->open_giveaway_url);     
+            return response()->json($data);
+        }        
+    }  
 
     // public function reUpdateGameContentFromUpstream() {
     //     $getMinId = Post::min('source_id');        

@@ -113,15 +113,16 @@
                                         <p>Toggle</p>
                                     </div>
                                     <div class="form-check form-switch mb-3 col-md-4 mt-1">
-                                        <label class="form-check-label" for="flexSwitchCheckChecked">Featured</label>
+                                        <label class="form-check-label" for="flexSwitchCheckChecked1">Featured</label>
                                         <input class="form-check-input" name="featured" type="checkbox"
-                                            id="flexSwitchCheckChecked" />
+                                            id="flexSwitchCheckChecked1" />
                                     </div>
                                     <div class="form-check form-switch mb-3 col-md-4 mt-1">
-                                        <label class="form-check-label" for="flexSwitchCheckChecked">Expired</label>
+                                        <label class="form-check-label" for="flexSwitchCheckChecked2">Expired</label>
                                         <input class="form-check-input" name="status" type="checkbox"
-                                            id="flexSwitchCheckChecked" value="Expired"
-                                            @if ($post->status == 'Expired') checked @else unchecked @endif />
+                                            id="flexSwitchCheckChecked2" value="Expired"
+                                            @if ($post->status == 'Expired') checked 
+                                            @elseif($post->status == 'Active') unchecked @endif />
                                     </div>
                                 </div>
                             </div>
@@ -142,7 +143,7 @@
                     </div>
                     <div class="card-body">
                         <p>Recomended size : <b>460x215</b> px</p>
-                        <img src="/post/images/{{ $post->image }}">
+                        <img src="{{ asset('/storage/post/images/' . $post->image) }}">
                     </div>
                 </div>
                 <div class="card mb-4">
@@ -152,13 +153,23 @@
                     <div class="card-body">
                         <div class="col-md-12">
                             <div class="row">
-                                <div class="col-md-3">
-                                    <a href="{{ route('singleBlog', ['slug' => $post->slug]) }}" target="_blank"><button
-                                            class="btn btn-primary">View
-                                            Post</button></a>
+                                <p>Source ID : <strong>{{ $post->source_id }}</strong> </p>
+                                <p>Original URL : <a href="{{ $post->open_giveaway_url }}"
+                                        target="_blank">{{ $post->open_giveaway_url }}</a></p>
+                                <p>Redirect URL : <a href="{{ $url }}/go/{{ $post->redirect_url }}"
+                                        target="_blank">{{ $url }}/go/{{ $post->redirect_url }}</a></p>
+                                <p>View Post : <a href="{{ route('singleBlog', ['slug' => $post->slug]) }}"
+                                        target="_blank">{{ $url }}/{{ $post->slug }}</a></p>
+                                <div class="mb-3 mt-3">
+                                    <h5 class="mb-0">Action</h5>
                                 </div>
                                 <div class="col-md-3">
-                                    <button class="btn btn-danger">Delete</button>
+                                    <form action="{{ route('indexAdminPostDeleteProcess', ['id' => $post->id]) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

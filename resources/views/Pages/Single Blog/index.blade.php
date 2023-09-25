@@ -53,14 +53,12 @@
                                 @endforeach
                             </ol>
                             <div class="anime__details__btn mt-4">
-                                @if ($expired_on < $today_date || $status == 'Expired')
+                                @if ($status == 'Active')
+                                    <a href="/go/{{ $redirect_url }}" target="_blank" class="follow-btn"><i
+                                            class="fa fa-download"></i> Claim Now</a>
+                                @elseif($status == 'Expired')
                                     <a href="#" class="expired-btn">
                                         Expired</a>
-                                @else
-                                    <a href="/go/{{ $redirect_url }}" target="_blank" class="follow-btn"><i
-                                            class="fa fa-download"></i>
-                                        Claim
-                                        Now</a>
                                 @endif
                                 <a href="#" class="watch-btn" disabled><span>Expired on :
                                         @if ($expired_on == 'N/A')

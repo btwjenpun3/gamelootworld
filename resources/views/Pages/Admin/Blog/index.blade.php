@@ -5,20 +5,14 @@
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Dashboard /</span> Posts</h4>
         <div class="card">
             <h5 class="card-header">All Game Posts</h5>
-            @if (session()->has('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
+            @if (session()->has('deleted'))
+                <div class="alert alert-success">{{ session('deleted') }}</div>
             @endif
             <div class="col-md-6 ms-4">
                 <div class="row">
                     <div class="col-md-3 mb-4">
-                        <a href="{{ route('fetchPostsFromUpstream') }}" class="btn btn-secondary"><i
-                                class="bi bi-download"></i>Fetch
-                            Posts</a>
-                    </div>
-                    <div class="col-md-3 mb-4">
-                        <a href="{{ route('updatePostsFromUpstream') }}" class="btn btn-primary"><i
-                                class="bi bi-download"></i>Update
-                            Posts</a>
+                        <a href="{{ route('indexAdminPostCreate') }}" class="btn btn-success">New
+                            Post</a>
                     </div>
                 </div>
             </div>
@@ -50,11 +44,9 @@
                                     <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $item->end_date)->format('d F Y') }}
                                     </td>
                                 @endif
-                                @if ($item->end_date == 'N/A' && $item->status == 'Active')
+                                @if ($item->status == 'Active')
                                     <td><span class="badge bg-label-success me-1">Active</span></td>
-                                @elseif($now <= $item->end_date && $item->status == 'Active')
-                                    <td><span class="badge bg-label-success me-1">Active</span></td>
-                                @elseif($now >= $item->end_date || $item->status == 'Expired')
+                                @elseif($item->status == 'Expired')
                                     <td><span class="badge bg-label-secondary me-1">Expired</span></td>
                                 @endif
                                 <td>
@@ -64,12 +56,10 @@
                                             <i class="bx bx-dots-vertical-rounded"></i>
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="javascript:void(0);"><i
+                                            <a class="dropdown-item"
+                                                href="{{ route('indexAdminPostEdit', ['id' => $item->id]) }}"><i
                                                     class="bx bx-edit-alt me-1"></i>
                                                 Edit</a>
-                                            <a class="dropdown-item" href="javascript:void(0);"><i
-                                                    class="bx bx-trash me-1"></i>
-                                                Delete</a>
                                         </div>
                                     </div>
                                 </td>
