@@ -81,3 +81,5 @@ Route::get('/data/update', [FetchController::class, 'updateGameContentFromUpstre
 // ---------------------------------------//
 // !!----------- Redirect Route -----------!! //
 Route::get('/go/{url}', [UrlController::class, 'urlRedirect']);
+
+Route::get('/tes/tes', [FetchController::class, 'updateGameContentFromUpstreamToTelegram']);

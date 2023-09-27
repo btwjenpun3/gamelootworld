@@ -127,48 +127,16 @@ class FetchController extends Controller
             return response()->json($data);
         }        
     }  
-
-    // public function reUpdateGameContentFromUpstream() {
-    //     $getMinId = Post::min('source_id');        
-    //     $findDateFromMinId = Post::where('source_id', $getMinId)->first();
-    //     $getDateFromMinId = $findDateFromMinId->published_date;
-    //     $content = HTTP::get($this->url);
-    //     $urlController = new UrlController();
-    //     $data = json_decode($content);
-    //     $filteredData = array_filter($data, function ($item) use ($getDateFromMinId) {            
-    //         return strtotime($item->published_date) < strtotime($getDateFromMinId);           
-    //     });
-    //     $firstKey = array_keys($filteredData)[0];        
-    //     end($filteredData);        
-    //     $lastKey = key($filteredData);
-    //     dd($filteredData);        
-    //     for($x = $firstKey; $x <= $lastKey; $x++) {
-    //         //!!---- Ambil Informasi Gambar ----!!
-    //         $imageUrl = $data[$x]->image;
-    //         $imageData = file_get_contents($imageUrl);
-    //         $imageName = basename($imageUrl);
-    //         $imagePath = public_path('post/images/').$imageName;
-    //         file_put_contents($imagePath, $imageData);
-
-    //         Post::create([
-    //             'source_id' => $data[$x]->id,
-    //             'title' => $data[$x]->title,
-    //             'worth' => str_replace('$', '', $data[$x]->worth),
-    //             'thumbnail' => $data[$x]->thumbnail,
-    //             'image' => $imageName,
-    //             'description' => $data[$x]->description,
-    //             'instructions' => $data[$x]->instructions,
-    //             'open_giveaway_url' => $data[$x]->open_giveaway_url,
-    //             'redirect_url' => $urlController->generateUpstreamUrlToOwnUrl($data[$x]->open_giveaway_url),                
-    //             'type' => $data[$x]->type,
-    //             'platforms' => $data[$x]->platforms,
-    //             'published_date' => $data[$x]->published_date,
-    //             'end_date' => $data[$x]->end_date,
-    //             'status' => $data[$x]->status,
-    //             'slug' => Str::slug($data[$x]->title)
-    //         ]);
-    //     }
-
-    //     return redirect()->route('indexAdminPosts')->with('success', 'Post successfully updated');
-    // }
+  
+    // !! ------------------ Telegram Fetch ---------------------- !! //
+    public function updateGameContentFromUpstreamToTelegram() {
+        $this->updateGameContentFromUpstream();
+        $response = json_encode([
+            'code' => 200,
+            'message' => "Post berhasil di Update."
+        ], 200);
+        $result = json_decode($response, true);
+        
+        return $result['message'];
+    }
 }

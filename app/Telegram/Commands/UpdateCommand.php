@@ -14,9 +14,8 @@ class UpdateCommand extends Command
     public function handle()
     {
         $update = new FetchController();
-        $response = $update->updateGameContentFromUpstream();
-        $data = json_decode($response, true);
-
+        $response = $update->updateGameContentFromUpstreamToTelegram();
+        
         $this->replyWithMessage([
             'text' => $response,
         ]);
