@@ -18,7 +18,7 @@ class UpdateCommand extends Command
         if(isset($responses['titles'])){
             $titles = $responses['titles'];
             $links =$responses['links'];
-            $message = 'Postingan berhasil di update.\nJudul Game :\n';
+            $message = 'Postingan berhasil di update. \n Judul Game : \n';
             foreach ($titles as $index => $title) {
                 // Pastikan ada elemen yang sesuai dalam array $links
                 if (isset($links[$index])) {
