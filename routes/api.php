@@ -20,4 +20,5 @@ use App\Http\Controllers\Telegram\TelegramController;
 //     return $request->user();
 // });
 
-Route::get('/telegram', [TelegramController::class, 'show']);
+Route::get('/setwebhook', [TelegramController::class, 'setWebHook']);
+Route::post('/lootworld/webhook', [TelegramController::class, 'commandHandlerWebHook']);

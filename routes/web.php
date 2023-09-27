@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SingleBlogController;
 use App\Http\Controllers\ToolController;
+use Telegram\Bot\Laravel\Facades\Telegram;
 use App\Http\Controllers\Fetch\FetchController;
 
 /*

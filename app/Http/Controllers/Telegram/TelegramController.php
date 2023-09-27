@@ -10,15 +10,11 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 
 class TelegramController extends Controller
 {
-    public function show() {
-        $response = Telegram::sendMessage([
-            'chat_id' => '184922928',
-            'text' => 'Hello World'
-        ]);
+    public function setWebhook() {
+        $response = Telegram::setWebhook(['url' => env('TELEGRAM_WEBHOOK-URL')]);
+    }    
 
-        $messageId = $response->getMessageId();
-
-        return $messageId;
-
+    public function commandHandlerWebHook() {
+        $updates = Telegram::commandsHandler(true);
     }
 }
