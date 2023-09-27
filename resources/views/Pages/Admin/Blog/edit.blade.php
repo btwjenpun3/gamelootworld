@@ -17,7 +17,7 @@
                         @if (session()->has('success'))
                             <div class="alert alert-success">{{ session('success') }}</div>
                         @endif
-                        <form method="POST" action="{{ route('indexAdminPostEditProcess', ['id' => $post->id]) }}">
+                        <form method="POST" action="{{ route('admin.posts.update', ['id' => $post->id]) }}">
                             @csrf
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="basic-default-title">Title</label>
@@ -154,17 +154,19 @@
                         <div class="col-md-12">
                             <div class="row">
                                 <p>Source ID : <strong>{{ $post->source_id }}</strong> </p>
+                                <p>Original Source : <a href="{{ $source_url }}"
+                                        target="_blank">{{ $source_url }}</a></p>
                                 <p>Original URL : <a href="{{ $post->open_giveaway_url }}"
                                         target="_blank">{{ $post->open_giveaway_url }}</a></p>
                                 <p>Redirect URL : <a href="{{ $url }}/go/{{ $post->redirect_url }}"
                                         target="_blank">{{ $url }}/go/{{ $post->redirect_url }}</a></p>
-                                <p>View Post : <a href="{{ route('singleBlog', ['slug' => $post->slug]) }}"
-                                        target="_blank">{{ $url }}/{{ $post->slug }}</a></p>
+                                <p>View Post : <a href="{{ route('loot.index', ['slug' => $post->slug]) }}"
+                                        target="_blank">{{ route('loot.index', ['slug' => $post->slug]) }}</a></p>
                                 <div class="mb-3 mt-3">
                                     <h5 class="mb-0">Action</h5>
                                 </div>
                                 <div class="col-md-3">
-                                    <form action="{{ route('indexAdminPostDeleteProcess', ['id' => $post->id]) }}"
+                                    <form action="{{ route('admin.posts.destroy', ['id' => $post->id]) }}"
                                         method="POST">
                                         @csrf
                                         @method('DELETE')

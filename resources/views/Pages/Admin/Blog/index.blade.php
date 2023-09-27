@@ -5,17 +5,20 @@
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Dashboard /</span> Posts</h4>
         <div class="card">
             <h5 class="card-header">All Game Posts</h5>
-            @if (session()->has('deleted'))
-                <div class="alert alert-success">{{ session('deleted') }}</div>
-            @endif
             <div class="col-md-6 ms-4">
                 <div class="row">
                     <div class="col-md-3 mb-4">
-                        <a href="{{ route('indexAdminPostCreate') }}" class="btn btn-success">New
+                        <a href="{{ route('admin.posts.create') }}" class="btn btn-success">New
                             Post</a>
                     </div>
                 </div>
             </div>
+            @if (session()->has('deleted'))
+                <div class="alert alert-warning col-md-6 ms-3">{{ session('deleted') }}</div>
+            @endif
+            @if (session()->has('created'))
+                <div class="alert alert-success col-md-6 ms-3">{{ session('created') }}</div>
+            @endif
             <div class="table-responsive text-nowrap">
                 <table class="table">
                     <thead>
@@ -33,7 +36,7 @@
                             <tr>
                                 <td>{{ ($posts->currentPage() - 1) * $posts->perPage() + $post + 1 }}</td>
                                 <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                                    <a href="{{ route('indexAdminPostEdit', ['id' => $item->id]) }}"><strong>{{ $item->title }}</strong>
+                                    <a href="{{ route('admin.posts.edit', ['id' => $item->id]) }}"><strong>{{ $item->title }}</strong>
                                         @if ($now <= \Carbon\Carbon::parse($item->created_at)->addMinutes(5))
                                             <span class="badge bg-label-danger me-1">New</span>
                                         @endif
@@ -60,7 +63,7 @@
                                         </button>
                                         <div class="dropdown-menu">
                                             <a class="dropdown-item"
-                                                href="{{ route('indexAdminPostEdit', ['id' => $item->id]) }}"><i
+                                                href="{{ route('admin.posts.edit', ['id' => $item->id]) }}"><i
                                                     class="bx bx-edit-alt me-1"></i>
                                                 Edit</a>
                                         </div>

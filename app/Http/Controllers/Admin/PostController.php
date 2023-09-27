@@ -1,55 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
-class AdminController extends Controller
+class PostController extends Controller
 {
-    // !! ------------------------------------------------- !! //
-    // !! ------------------- Dashboard ------------------- !! //
-
     public function index() {
-        return view('Pages.Admin.Dashboard.index', [
-            'title' => 'Dashboard'
-        ]);
-    }
-
-    public function loginForm() {
-        return view('Pages.Admin.Login.index');
-    }
-
-    // !! ------------------------------------------------- !! //
-    // !! ------------------- Login  ------------------- !! //
-
-     public function loginProccess(Request $request) {
-        $request->validate(
-            [
-                'email' => ['required', 'email'],
-                'password' => 'required',
-            ]
-        );
-        $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) { 
-            return redirect()->route('indexAdmin');
-        }
-        return redirect()
-            ->back()
-            ->withInput($request->only('email'))
-            ->withErrors([
-                'email' => 'These credentials do not match our records.',
-            ]);
-    }
-
-    // !! ------------------------------------------------- !! //
-    // !! ------------------- Posts  ------------------- !! //
-
-    public function posts() {
         $posts = Post::select('id', 'title', 'published_date', 'end_date', 'status', 'created_at')->orderBy('source_id', 'desc')->paginate(10);
         $now = Carbon::now()->format('Y-m-d H:i:s');
         return view('Pages.Admin.Blog.index', [
@@ -59,13 +21,13 @@ class AdminController extends Controller
         ]);
     }
 
-    public function postCreate() {
+    public function create() {
         return view('Pages.Admin.Blog.new', [
             'title' => 'New Post'
         ]);
     }
 
-    public function postCreateProcess(Request $request) {
+    public function store(Request $request) {
         $request->validate([
             'source_id' => 'required',
             'title' => 'required',
@@ -101,23 +63,24 @@ class AdminController extends Controller
             'slug' => Str::slug($request->title),
             'status' => $status
         ]);
-
-        return redirect()->route('indexAdminPosts');
+        return redirect()->route('admin.posts.index')->with(['created' => 'Post successfully created']);
     }
 
-    public function postEdit(Request $request) {
+    public function edit(Request $request) {
         $post = Post::find($request->id);
         $url = env('APP_URL');
+        $source_url = str_replace('/open/', '/', $post->open_giveaway_url);
         $now = Carbon::now()->format('Y-m-d H:i:s');
         return view('Pages.Admin.Blog.edit', [
             'title' => 'Edit Post ' . $post->title,
             'post' => $post,
             'now' => $now ,
-            'url' => $url
+            'url' => $url,
+            'source_url' => $source_url
         ]);
     }
 
-    public function postEditProcess(Request $request) {
+    public function update(Request $request) {
         $post = Post::find($request->id);
         $request->validate([
             'title' => 'required',
@@ -144,16 +107,12 @@ class AdminController extends Controller
             'end_date' => $request->end_date,
             'status' => $status
         ]);
-
-        return redirect()->route('indexAdminPostEdit', ['id' => $request->id])->with('success', 'Post successfully edited.');
+        return redirect()->route('admin.posts.edit', ['id' => $request->id])->with('success', 'Post successfully edited.');
     }
 
-    public function postDeleteProcess(Request $request) {
+    public function destroy(Request $request) {
         $post = Post::find($request->id);
         $post->delete();
-        return redirect()->route('indexAdminPosts')->with('deleted', 'Post successfully deleted');
+        return redirect()->route('admin.posts.index')->with('deleted', 'Post successfully deleted');
     }
-
-    // !! ------------------------------------------------- !! //
-    // !! ------------------- Fetch  ------------------- !! //    
 }

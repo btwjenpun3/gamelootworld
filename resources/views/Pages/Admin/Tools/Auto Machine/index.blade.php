@@ -19,20 +19,21 @@
                             it will auto pull to database. </p>
                     </div>
                     <div class="ms-4 mb-4">
-                        <button class="btn btn-primary" id="updateButton" onclick="postsUpdate()"> Update Posts </button>
+                        <button class="btn btn-primary" id="updateButton" onclick="updatePosts()"> Update Posts </button>
                         <script>
-                            function postsUpdate() {
+                            function updatePosts() {
+                                var url = "{{ route('admin.tools.fetch.update') }}"
                                 var updateButton = document.getElementById('updateButton');
                                 updateButton.innerHTML = 'Updating...';
                                 updateButton.disabled = true;
                                 $.ajax({
-                                    url: '/data/update',
+                                    url: url,
                                     method: 'get',
                                     success: function(response) {
                                         var successMessage = document.createElement(
                                             "div");
                                         successMessage.className = "alert alert-success";
-                                        successMessage.textContent = response.title;
+                                        successMessage.textContent = response.message;
                                         $('#update_result').html(successMessage);
                                         setTimeout(function() {
                                             successMessage.remove();
@@ -76,11 +77,12 @@
                             Status</button>
                         <script>
                             function updateStatus() {
+                                var url = "{{ route('admin.tools.update_status') }}";
                                 var statusButton = document.getElementById('statusButton');
                                 statusButton.innerHTML = 'Updating...';
                                 statusButton.disabled = true;
                                 $.ajax({
-                                    url: '/data/status/update',
+                                    url: url,
                                     method: 'get',
                                     success: function(response) {
                                         var successMessage = document.createElement(
@@ -141,11 +143,12 @@
                             <button class="btn btn-danger" id="fetch" onclick="fetch()">Fetch All</button>
                             <script>
                                 function fetch() {
+                                    var url = "{{ route('admin.tools.fetch.all') }}"
                                     var fetch = document.getElementById('fetch');
                                     fetch.innerHTML = 'Updating...';
                                     fetch.disabled = true;
                                     $.ajax({
-                                        url: '/data/fetch',
+                                        url: url,
                                         method: 'get',
                                         success: function(response) {
                                             var successMessage = document.createElement(

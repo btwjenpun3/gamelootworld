@@ -9,14 +9,14 @@ class HomeController extends Controller
 {
     public function index() {    
         $dlcs = Post::where('type', 'DLC')->limit(4)->latest('source_id')->get(); 
-        $steamGames = Post::where('platforms', 'LIKE', '%steam%')->where('type', 'Game')->limit(4)->latest('source_id')->get(); 
-        $epicGames = Post::where('platforms', 'LIKE', '%epic%')->where('type', 'Game')->limit(4)->latest('source_id')->get();
-        $GogGames = Post::where('platforms', 'LIKE', '%GOG%')->where('type', 'Game')->limit(4)->latest('source_id')->get();            
+        $steam = Post::where('platforms', 'LIKE', '%steam%')->where('type', 'Game')->limit(4)->latest('source_id')->get(); 
+        $epic = Post::where('platforms', 'LIKE', '%epic%')->where('type', 'Game')->limit(4)->latest('source_id')->get();
+        $gog = Post::where('platforms', 'LIKE', '%gog%')->where('type', 'Game')->limit(4)->latest('source_id')->get();            
         return view('Pages.Home.index', [
-            'steams' => $steamGames,
-            'epics' => $epicGames,
+            'steams' => $steam,
+            'epics' => $epic,
             'dlcs' => $dlcs,
-            'gogs' => $GogGames
+            'gogs' => $gog
         ]);
     }    
 }

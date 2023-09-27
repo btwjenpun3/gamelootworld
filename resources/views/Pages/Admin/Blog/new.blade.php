@@ -27,8 +27,9 @@
                         <script>
                             function editData() {
                                 var sourceId = document.getElementById('id').value;
+                                var url = "{{ route('admin.tools.fetch.id') }}"
                                 $.ajax({
-                                    url: '/data/fetch/' + sourceId,
+                                    url: url + "/" + sourceId,
                                     type: 'get',
                                     success: function(response) {
                                         console.log(response);
@@ -72,8 +73,7 @@
                         <small class="text-muted float-end">Make sure your new data are correct</small>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('indexAdminPostCreateProcess') }}"
-                            enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('admin.posts.store') }}" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" id="source_id" name="source_id">
                             <input type="hidden" id="thumbnail" name="thumbnail">

@@ -20,7 +20,7 @@
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn__all">
-                                    <a href="{{ route('steamIndex') }}" class="primary-btn">View All <span
+                                    <a href="{{ route('loots.steam') }}" class="primary-btn">View All <span
                                             class="arrow_right"></span></a>
                                 </div>
                             </div>
@@ -79,7 +79,7 @@
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn__all">
-                                    <a href="{{ route('epicIndex') }}" class="primary-btn">View All <span
+                                    <a href="{{ route('loots.epic') }}" class="primary-btn">View All <span
                                             class="arrow_right"></span></a>
                                 </div>
                             </div>
@@ -138,7 +138,7 @@
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn__all">
-                                    <a href="{{ route('gogIndex') }}" class="primary-btn">View All <span
+                                    <a href="{{ route('loots.gog') }}" class="primary-btn">View All <span
                                             class="arrow_right"></span></a>
                                 </div>
                             </div>
@@ -197,7 +197,7 @@
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn__all">
-                                    <a href="{{ route('allDlcIndex') }}" class="primary-btn">View All <span
+                                    <a href="{{ route('loots.dlcs') }}" class="primary-btn">View All <span
                                             class="arrow_right"></span></a>
                                 </div>
                             </div>

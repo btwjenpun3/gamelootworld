@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\FetchStatus;
 use Carbon\Carbon;
 
 class ToolController extends Controller
 {
-    public function autoMachineIndex() {
+    public function index() {
         $status = FetchStatus::first();
         return view('Pages.Admin.Tools.Auto Machine.index', [
             'title' => 'Auto Machine',

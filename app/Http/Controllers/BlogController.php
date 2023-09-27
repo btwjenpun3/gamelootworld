@@ -7,7 +7,7 @@ use App\Models\Post;
 
 class BlogController extends Controller
 {
-    public function allIndex() {    
+    public function games() {    
         $data = Post::where('type', 'Game')->latest('source_id')->paginate(12);
         $count = Post::where('type', 'Game')->count();  
         return view('Pages.Blog.index', [
@@ -17,7 +17,7 @@ class BlogController extends Controller
         ]);
     } 
 
-    public function allDlcIndex() {    
+    public function dlcs() {    
         $data = Post::where('type', 'DLC')->latest('source_id')->paginate(12);  
         $count = Post::where('type', 'DLC')->count();
         return view('Pages.Blog.index', [
@@ -27,7 +27,7 @@ class BlogController extends Controller
         ]);
     }
 
-    public function steamIndex() {    
+    public function steam() {    
         $data = Post::where('platforms', 'LIKE', '%steam%')->where('type', 'Game')->latest('source_id')->paginate(12);  
         $count = Post::where('platforms', 'LIKE', '%steam%')->where('type', 'Game')->count(); 
         return view('Pages.Blog.index', [
@@ -37,7 +37,7 @@ class BlogController extends Controller
         ]);
     } 
 
-    public function epicIndex() {    
+    public function epic() {    
         $data = Post::where('platforms', 'LIKE', '%epic%')->where('type', 'Game')->latest('source_id')->paginate(12);  
         $count = Post::where('platforms', 'LIKE', '%epic%')->where('type', 'Game')->count(); 
         return view('Pages.Blog.index', [
@@ -47,7 +47,7 @@ class BlogController extends Controller
         ]);
     } 
 
-    public function gogIndex() {    
+    public function gog() {    
         $data = Post::where('platforms', 'LIKE', '%gog%')->where('type', 'Game')->latest('source_id')->paginate(12);  
         $count = Post::where('platforms', 'LIKE', '%gog%')->where('type', 'Game')->count(); 
         return view('Pages.Blog.index', [

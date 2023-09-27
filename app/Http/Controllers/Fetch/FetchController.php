@@ -22,30 +22,19 @@ class FetchController extends Controller
     }
 
     public function fetchGameContentFromUpstream() {
-        //!!---- Ambil Konten Berupa JSON ----!!//
         $content = HTTP::get($this->url);
         $urlController = new UrlController();
-
-        //!!---- Decode JSON ----!!
-        $data = json_decode($content);        
-
-        //!!---- Ambil Key Terakhir dari Arraay yang Tersedia ----!!
+        $data = json_decode($content);
         $lastKey = count($data) - 1;
-
         FetchStatus::create([
                 'status' => 'updated'
             ]);
-
-        //!!---- Looping dan Masukkan ke Database Posts ----!!
         for($x = 0; $x <= $lastKey; $x++) {
-            //!!---- Ambil Informasi Gambar ----!!
             $imageUrl = $data[$x]->image;
             $imageData = file_get_contents($imageUrl);
             $imageName = basename($imageUrl);
             $imagePath = 'post/images/' . $imageName;
             Storage::disk('public')->put($imagePath, $imageData);
-
-            //!!---- Masukkan Data ke Database ----!!
             Post::create([
                 'source_id' => $data[$x]->id,
                 'title' => $data[$x]->title,
@@ -105,8 +94,7 @@ class FetchController extends Controller
                 'end_date' => $data[$x]->end_date,
                 'status' => $data[$x]->status,
                 'slug' => Str::slug($data[$x]->title)
-            ]);     
-            $titles[] = $data[$x]->title;       
+            ]);           
         }
         return response()->json([
             'code' => 200,
@@ -142,13 +130,11 @@ class FetchController extends Controller
         });
         $lastKey = count($filteredData) - 1;
         for($x = 0; $x <= $lastKey; $x++) {
-            //!!---- Ambil Informasi Gambar ----!!
             $imageUrl = $data[$x]->image;
             $imageData = file_get_contents($imageUrl);
             $imageName = basename($imageUrl);
             $imagePath = 'post/images/' . $imageName;
             Storage::disk('public')->put($imagePath, $imageData);
-
             Post::create([
                 'source_id' => $data[$x]->id,
                 'title' => $data[$x]->title,
@@ -169,7 +155,6 @@ class FetchController extends Controller
             $titles[] = $data[$x]->title; 
             $links[] = env('APP_URL').'/'.Str::slug($data[$x]->title);      
         }
-
         if(isset($titles)) {
             $response = json_encode([
                 'code' => 200,
@@ -179,7 +164,6 @@ class FetchController extends Controller
             ], 200);
         $result = json_decode($response, true);
         return $result;
-
         } else {
             $response = json_encode([
             'code' => 200,

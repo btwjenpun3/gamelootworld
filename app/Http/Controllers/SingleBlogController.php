@@ -12,7 +12,7 @@ class SingleBlogController extends Controller
         $slug = $request->slug;
         $todayDate = Carbon::now();
         $data = Post::where('slug', $slug)->first();
-        $relatedPosts = Post::where('platforms', 'LIKE', '%'.$data->platforms.'%')->limit(4)->get();
+        $relatedPosts = Post::where('platforms', 'LIKE', '%'.$data->platforms.'%')->limit(4)->get();        
         return view('Pages.Single Blog.index', [
             'title' => $data->title,
             'image' => $data->image,
