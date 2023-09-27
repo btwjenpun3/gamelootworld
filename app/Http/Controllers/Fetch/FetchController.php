@@ -168,6 +168,7 @@ class FetchController extends Controller
             ]);     
             $titles[] = $data[$x]->title;       
         }
+        
         if(isset($titles)) {
             $response = json_encode([
                 'code' => 200,
@@ -176,6 +177,7 @@ class FetchController extends Controller
             ], 200);
         $result = json_decode($response, true);
         return $result;
+
         } else {
             $response = json_encode([
             'code' => 200,
