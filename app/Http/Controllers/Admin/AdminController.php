@@ -14,10 +14,10 @@ class AdminController extends Controller
 
     public function dashboard() {
         $user = User::where('id', auth()->id())->first();
-        $role = $user->role->name;
+        $name = $user->role->name;
         return view('Pages.Admin.Dashboard.index', [
             'title' => 'Dashboard',
-            'role' => $role
+            'name' => $name
         ]);
     }
 
