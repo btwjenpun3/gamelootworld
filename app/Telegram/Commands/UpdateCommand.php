@@ -18,12 +18,12 @@ class UpdateCommand extends Command
         if(isset($responses['titles'])){
             $titles = $responses['titles'];
             $links =$responses['links'];
-            $message = "Postingan berhasil di update.\nJudul Game :\n";
+            $message = "Postingan berhasil di update.\n\n";
             foreach ($titles as $index => $title) {
                 // Pastikan ada elemen yang sesuai dalam array $links
                 if (isset($links[$index])) {
                     $link = $links[$index];
-                    $message .= '- ' . $title . ' (' . $link . ")\n";
+                    $message .= '- ' . $title . ' (' . $link . ")\n\n";
                 }
             }
             $this->replyWithMessage([
