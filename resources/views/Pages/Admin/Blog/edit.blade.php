@@ -143,7 +143,7 @@
                     </div>
                     <div class="card-body">
                         <p>Recomended size : <b>460x215</b> px</p>
-                        <img src="{{ asset('/storage/post/images/' . $post->image) }}">
+                        <img src="{{ asset('/storage/post/images/' . $post->image) }}" width="460px" height="215px">
                     </div>
                 </div>
                 <div class="card mb-4">

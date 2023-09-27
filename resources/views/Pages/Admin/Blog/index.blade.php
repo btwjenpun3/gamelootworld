@@ -33,8 +33,11 @@
                             <tr>
                                 <td>{{ ($posts->currentPage() - 1) * $posts->perPage() + $post + 1 }}</td>
                                 <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                                    <a
-                                        href="{{ route('indexAdminPostEdit', ['id' => $item->id]) }}"><strong>{{ $item->title }}</strong></a>
+                                    <a href="{{ route('indexAdminPostEdit', ['id' => $item->id]) }}"><strong>{{ $item->title }}</strong>
+                                        @if ($now <= \Carbon\Carbon::parse($item->created_at)->addMinutes(5))
+                                            <span class="badge bg-label-danger me-1">New</span>
+                                        @endif
+                                    </a>
                                 </td>
                                 <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $item->published_date)->format('d F Y') }}
                                 </td>

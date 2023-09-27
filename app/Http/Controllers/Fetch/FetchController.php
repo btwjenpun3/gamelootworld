@@ -32,6 +32,10 @@ class FetchController extends Controller
         //!!---- Ambil Key Terakhir dari Arraay yang Tersedia ----!!
         $lastKey = count($data) - 1;
 
+        FetchStatus::create([
+                'status' => 'updated'
+            ]);
+
         //!!---- Looping dan Masukkan ke Database Posts ----!!
         for($x = 0; $x <= $lastKey; $x++) {
             //!!---- Ambil Informasi Gambar ----!!
@@ -59,10 +63,7 @@ class FetchController extends Controller
                 'status' => $data[$x]->status,
                 'slug' => Str::slug($data[$x]->title)
             ]);            
-        }
-        FetchStatus::create([
-                'status' => 'updated'
-            ]);
+        }        
         return response()->json([
             'code' => 200,
             'message' => "Post successfully updated"
