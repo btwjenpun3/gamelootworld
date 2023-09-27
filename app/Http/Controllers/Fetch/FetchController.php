@@ -166,14 +166,17 @@ class FetchController extends Controller
                 'status' => $data[$x]->status,
                 'slug' => Str::slug($data[$x]->title)
             ]);     
-            $titles[] = $data[$x]->title;       
+            $titles[] = $data[$x]->title; 
+            $links[] = env('APP_URL').'/'.Str::slug($data[$x]->title);      
         }
-        
+
         if(isset($titles)) {
+            dd($links);
             $response = json_encode([
                 'code' => 200,
                 'message' => "Post berhasil di Update.",
-                'titles' => $titles
+                'titles' => $titles,
+                'links' => $links
             ], 200);
         $result = json_decode($response, true);
         return $result;
