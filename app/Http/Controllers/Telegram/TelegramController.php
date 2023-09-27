@@ -11,7 +11,7 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 class TelegramController extends Controller
 {
     public function setWebhook() {
-        $response = Telegram::setWebhook(['url' => env('TELEGRAM_WEBHOOK-URL')]);
+        $response = Telegram::setWebhook(['url' => env('TELEGRAM_WEBHOOK_URL')]);
     }    
 
     public function commandHandlerWebHook() {
