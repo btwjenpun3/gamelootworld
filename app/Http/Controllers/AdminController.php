@@ -50,7 +50,7 @@ class AdminController extends Controller
     // !! ------------------- Posts  ------------------- !! //
 
     public function posts() {
-        $posts = Post::select('id', 'title', 'published_date', 'end_date', 'status', 'created_at')->orderBy('created_at', 'desc')->paginate(10);
+        $posts = Post::select('id', 'title', 'published_date', 'end_date', 'status', 'created_at')->orderBy('source_id', 'desc')->paginate(10);
         $now = Carbon::now()->format('Y-m-d H:i:s');
         return view('Pages.Admin.Blog.index', [
             'title' => 'Posts',
