@@ -17,9 +17,9 @@ class UpdateCommand extends Command
         $responses = $update->updateGameContentFromUpstreamToTelegram();        
         if(isset($responses['titles'])){
             $titles = $responses['titles'];
-            $message = 'Postingan berhasil di update. Judul Game : ';
+            $message = 'Postingan berhasil di update. Judul Game :\n';
             foreach($titles as $title) {
-                $message .= $title . ', ';
+                $message .= '- ' . $title . '\n';
             }
             $this->replyWithMessage([
             'text' => $message,
