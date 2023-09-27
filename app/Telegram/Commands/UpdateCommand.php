@@ -18,7 +18,7 @@ class UpdateCommand extends Command
         $data = json_decode($response, true);
 
         $this->replyWithMessage([
-            'text' => $data,
+            'text' => $response,
         ]);
     }
 }
