@@ -14,10 +14,13 @@ class UpdateCommand extends Command
     public function handle()
     {
         $update = new FetchController();
-        $response = $update->updateGameContentFromUpstreamToTelegram();
-        if(isset($response['titles'])){
+        $responses = $update->updateGameContentFromUpstreamToTelegram();
+        foreach($responses['titles'] as $response => $title) {
+            return $response;
+        }
+        if(isset($responses['titles'])){
             $this->replyWithMessage([
-            'text' => $response.'dengan judul game'.$response['titles'][0],
+            'text' => $response.'dengan judul game'.$title,
         ]);
         } else {
             $this->replyWithMessage([
