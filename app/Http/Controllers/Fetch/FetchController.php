@@ -171,7 +171,6 @@ class FetchController extends Controller
         }
 
         if(isset($titles)) {
-            dd($links);
             $response = json_encode([
                 'code' => 200,
                 'message' => "Post berhasil di Update.",
