@@ -9,15 +9,20 @@ use App\Models\FetchStatus;
 class UpdateCommand extends Command
 {
     protected string $name = 'update';
-    protected string $description = 'Ini adalah command untuk update post otomatis dari Telegram yang baru';
+    protected string $description = 'Ini adalah command untuk update post otomatis dari Telegram yang baru 2';
 
     public function handle()
     {
         $update = new FetchController();
         $response = $update->updateGameContentFromUpstreamToTelegram();
-        
-        $this->replyWithMessage([
-            'text' => $response,
+        if(isset($response['titles'])){
+            $this->replyWithMessage([
+            'text' => $response.'dengan judul game'.$response['titles'][0],
         ]);
+        } else {
+            $this->replyWithMessage([
+            'text' => $response['message'],
+        ]);
+        }       
     }
 }

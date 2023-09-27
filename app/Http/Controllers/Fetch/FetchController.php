@@ -105,7 +105,8 @@ class FetchController extends Controller
                 'end_date' => $data[$x]->end_date,
                 'status' => $data[$x]->status,
                 'slug' => Str::slug($data[$x]->title)
-            ]);
+            ]);     
+            $titles[] = $data[$x]->title;       
         }
         return response()->json([
             'code' => 200,
@@ -131,12 +132,21 @@ class FetchController extends Controller
     // !! ------------------ Telegram Fetch ---------------------- !! //
     public function updateGameContentFromUpstreamToTelegram() {
         $this->updateGameContentFromUpstream();
-        $response = json_encode([
+        if(isset($titles)) {
+            $response = json_encode([
+                'code' => 200,
+                'message' => "Post berhasil di Update.",
+                'titles' => $titles
+            ], 200);
+        $result = json_decode($response, true);
+        return $result;
+        } else {
+            $response = json_encode([
             'code' => 200,
             'message' => "Post berhasil di Update."
         ], 200);
         $result = json_decode($response, true);
-        
-        return $result['message'];
+        return $result;
+        }     
     }
 }

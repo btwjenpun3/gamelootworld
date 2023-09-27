@@ -32,7 +32,7 @@
                                         var successMessage = document.createElement(
                                             "div");
                                         successMessage.className = "alert alert-success";
-                                        successMessage.textContent = response.message;
+                                        successMessage.textContent = response.title;
                                         $('#update_result').html(successMessage);
                                         setTimeout(function() {
                                             successMessage.remove();
