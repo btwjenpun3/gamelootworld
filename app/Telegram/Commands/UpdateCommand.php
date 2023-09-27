@@ -23,7 +23,7 @@ class UpdateCommand extends Command
             }
             $this->replyWithMessage([
             'text' => $message,
-            'parse_mode' => 'HTML',
+            'parse_mode' => 'Markdown',
         ]);
         } else {
             $this->replyWithMessage([
