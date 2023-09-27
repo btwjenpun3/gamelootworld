@@ -9,7 +9,7 @@ use App\Models\FetchStatus;
 class UpdateCommand extends Command
 {
     protected string $name = 'update';
-    protected string $description = 'Start Command to get you started';
+    protected string $description = 'Ini adalah command untuk update post otomatis dari Telegram';
 
     public function handle()
     {
