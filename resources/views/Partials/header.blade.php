@@ -8,7 +8,7 @@
                     </a>
                 </div>
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-6">
                 <div class="header__nav">
                     <nav class="header__menu mobile-menu">
                         <ul>
@@ -27,10 +27,26 @@
                     </nav>
                 </div>
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-4">
                 <div class="header__right">
                     <a href="#" class="search-switch"><span class="icon_search"></span></a>
-                    <a href="./login.html"><span class="icon_profile"></span></a>
+                    @if (Auth::check())
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-user"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ route('collection.index') }}"
+                                style="color:black;font-size:15px;"><i class="fa fa-briefcase"></i>
+                                My Collections</a>
+                            <a class="dropdown-item" href="#" style="color:black;font-size:15px;"><i
+                                    class="fa fa-cog"></i> Settings</a>
+                            <hr>
+                            <a class="dropdown-item" href="{{ route('login.logout') }}"
+                                style="color:red;font-size:15px;"><i class="fa fa-sign-out"></i> Logout</a>
+                        </div>
+                    @else
+                        <a href="{{ route('login.index') }}"><span class="icon_profile"></span></a>
+                    @endif
                 </div>
             </div>
         </div>

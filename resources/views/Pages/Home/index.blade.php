@@ -7,7 +7,6 @@
 @section('content')
     <section class="product spad">
         <div class="container">
-
             {{-- Steam Games --}}
             <div class="row">
                 <div class="col-lg-12">

@@ -24,4 +24,13 @@
             <div data-i18n="Analytics">Auto Machine</div>
         </a>
     </li>
+    <li class="menu-header small text-uppercase">
+        <span class="menu-header-text">Links</span>
+    </li>
+    <li class="menu-item">
+        <a href="{{ route('home.index') }}" class="menu-link" target="_blank">
+            <i class="menu-icon tf-icons bx bx-link-external"></i>
+            <div data-i18n="Analytics">Open Website</div>
+        </a>
+    </li>
 </ul>

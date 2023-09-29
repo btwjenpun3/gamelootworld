@@ -1,5 +1,8 @@
 <section class="hero">
     <div class="container">
+        @if (session()->has('login_success'))
+            <div class="alert alert-success">{{ session('login_success') }}</div>
+        @endif
         <div class="hero__slider owl-carousel">
             <div class="hero__items set-bg" data-setbg="img/hero/hero-1.jpg">
                 <div class="row">

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\User\CollectionController;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -11,12 +13,25 @@ class HomeController extends Controller
         $dlcs = Post::where('type', 'DLC')->limit(4)->latest()->get(); 
         $steam = Post::where('platforms', 'LIKE', '%steam%')->where('type', 'Game')->limit(4)->latest()->get(); 
         $epic = Post::where('platforms', 'LIKE', '%epic%')->where('type', 'Game')->limit(4)->latest()->get();
-        $gog = Post::where('platforms', 'LIKE', '%gog%')->where('type', 'Game')->limit(4)->latest()->get();            
-        return view('Pages.Home.index', [
-            'steams' => $steam,
-            'epics' => $epic,
-            'dlcs' => $dlcs,
-            'gogs' => $gog
-        ]);
+        $gog = Post::where('platforms', 'LIKE', '%gog%')->where('type', 'Game')->limit(4)->latest()->get(); 
+        if(auth()->check()) {            
+                $call = new CollectionController;
+                $collections = $call->getCollections();
+                    return view('Pages.Home.index', [
+                    'steams' => $steam,
+                    'epics' => $epic,
+                    'dlcs' => $dlcs,
+                    'gogs' => $gog,
+                    'collections' => $collections
+                ]);                                      
+        } else {
+            return view('Pages.Home.index', [
+                'steams' => $steam,
+                'epics' => $epic,
+                'dlcs' => $dlcs,
+                'gogs' => $gog
+            ]);
+        }
+        
     }    
 }

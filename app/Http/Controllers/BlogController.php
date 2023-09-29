@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\User\CollectionController;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\UserPost;
 
 class BlogController extends Controller
 {
     public function games() {    
         $data = Post::where('type', 'Game')->latest('source_id')->paginate(12);
-        $count = Post::where('type', 'Game')->count();  
+        $count = Post::where('type', 'Game')->count(); 
         return view('Pages.Blog.index', [
-            'title' => 'All Free Giveaways',
+            'title' => 'Games Free Giveaways',
             'datas' => $data,
             'count' => $count
         ]);

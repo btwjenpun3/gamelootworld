@@ -4,11 +4,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UrlController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\ToolController;
 use App\Http\Controllers\SingleBlogController;
+use App\Http\Controllers\User\LoginController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Fetch\FetchController;
+use App\Http\Controllers\User\CommentController;
+use App\Http\Controllers\User\RegisterController;
+use App\Http\Controllers\User\CollectionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -92,3 +96,36 @@ Route::prefix('/auth/private/admin')
 
 // !!----------- Redirect Route -----------!! //
 Route::get('/go/{url}', [UrlController::class, 'urlRedirect']);
+
+// !!----------- User Route -----------!! //
+Route::prefix('/user')
+    ->name('login.')
+    ->controller(LoginController::class)
+    ->group(function() {
+        Route::get('/login', 'index')->name('index');
+        Route::post('/login', 'login')->name('login');
+        Route::get('/logout', 'logout')->name('logout');
+    });
+
+Route::prefix('/user/register')
+    ->name('register.')
+    ->controller(RegisterController::class)
+    ->group(function() {
+        Route::get('/', 'index')->name('index');
+        Route::post('/', 'store')->name('store');
+    });
+
+Route::prefix('/user/collection')
+    ->name('collection.')
+    ->controller(CollectionController::class)
+    ->group(function() {
+        Route::get('/', 'index')->name('index');
+        Route::get('/add/{id}', 'add')->name('add');
+    });
+
+Route::prefix('/user/comment')
+    ->name('comment.')
+    ->controller(CommentController::class)
+    ->group(function() {
+        Route::post('/{id}', 'store')->name('store');
+    });
