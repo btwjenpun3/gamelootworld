@@ -29,7 +29,7 @@ class FetchController extends Controller
         FetchStatus::create([
                 'status' => 'updated'
             ]);
-        for($x = 0; $x <= $lastKey; $x++) {
+        for($x = $lastKey; $x >= 0; $x--) {
             $imageUrl = $data[$x]->image;
             $imageData = file_get_contents($imageUrl);
             $imageName = basename($imageUrl);

@@ -13,10 +13,12 @@ class GlobalHeader extends Component
      * Create a new component instance.
      */
     public $name;
+    public $role;
 
     public function __construct()
     {
         $this->name = auth()->user()->name;
+        $this->role = auth()->user()->role->name;
     }
 
     /**

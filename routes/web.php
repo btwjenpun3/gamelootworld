@@ -6,6 +6,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\ToolController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\SingleBlogController;
 use App\Http\Controllers\User\LoginController;
 use App\Http\Controllers\Admin\AdminController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\Fetch\FetchController;
 use App\Http\Controllers\User\CommentController;
 use App\Http\Controllers\User\RegisterController;
 use App\Http\Controllers\User\CollectionController;
+use App\Http\Controllers\Admin\AdminCommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,6 +77,14 @@ Route::prefix('/auth/private/admin')
             Route::delete('/delete/{id}', 'destroy')->name('destroy');
         });
 
+    Route::prefix('/auth/private/admin/comments')
+        ->name('admin.comments.')
+        ->middleware('isadmin')
+        ->controller(AdminCommentController::class)
+        ->group(function() {
+            Route::get('/', 'index')->name('index');
+        });
+
     Route::prefix('/auth/private/admin/tools')
         ->name('admin.tools.')
         ->middleware('isadmin')
@@ -94,6 +104,16 @@ Route::prefix('/auth/private/admin')
             Route::get('/fetch/get/update', 'updateGameContentFromUpstream')->name('update');
         });
 
+    Route::prefix('/auth/private/admin/user')
+        ->name('admin.user.')
+        ->middleware('isadmin')
+        ->controller(UserController::class)
+        ->group(function() {
+            Route::get('/', 'index')->name('index');
+            Route::get('/edit/{id}', 'edit')->name('edit');
+            Route::post('/edit/{id}', 'update')->name('update');
+        });        
+
 // !!----------- Redirect Route -----------!! //
 Route::get('/go/{url}', [UrlController::class, 'urlRedirect']);
 
@@ -104,7 +124,7 @@ Route::prefix('/user')
     ->group(function() {
         Route::get('/login', 'index')->name('index');
         Route::post('/login', 'login')->name('login');
-        Route::get('/logout', 'logout')->name('logout');
+        Route::get('/logout', 'logout')->name('logout')->middleware('ismember');
     });
 
 Route::prefix('/user/register')
@@ -117,6 +137,7 @@ Route::prefix('/user/register')
 
 Route::prefix('/user/collection')
     ->name('collection.')
+    ->middleware('ismember')
     ->controller(CollectionController::class)
     ->group(function() {
         Route::get('/', 'index')->name('index');
@@ -125,6 +146,7 @@ Route::prefix('/user/collection')
 
 Route::prefix('/user/comment')
     ->name('comment.')
+    ->middleware('ismember')
     ->controller(CommentController::class)
     ->group(function() {
         Route::post('/{id}', 'store')->name('store');

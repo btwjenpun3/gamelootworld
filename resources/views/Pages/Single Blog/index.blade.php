@@ -87,7 +87,11 @@
                                     <h6>{{ $comment->user->name }} -
                                         <span>{{ $comment->diffTime }}</span>
                                     </h6>
-                                    <p>{{ $comment->comments }}</p>
+                                    @if ($comment->status == 'approved')
+                                        <p> {{ $comment->comments }}</p>
+                                    @elseif($comment->status == 'declined')
+                                        <p><i>Comment Declined</i></p>
+                                    @endif
                                 </div>
                             </div>
                         @endforeach
@@ -97,6 +101,9 @@
                             <h5>Your Comment</h5>
                         </div>
                         @if (auth()->check())
+                            @error('comment')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                             <form action="{{ route('comment.store', ['id' => $id]) }}" method="post">
                                 @csrf
                                 <textarea placeholder="Your Comment" name="comment"></textarea>

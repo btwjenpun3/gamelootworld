@@ -15,6 +15,21 @@
             <div data-i18n="Analytics">Posts</div>
         </a>
     </li>
+    <li class="menu-item @if ($title == 'Comments') active @endif">
+        <a href="{{ route('admin.comments.index') }}" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-comment"></i>
+            <div data-i18n="Analytics">Comments</div>
+        </a>
+    </li>
+    <li class="menu-header small text-uppercase">
+        <span class="menu-header-text">User</span>
+    </li>
+    <li class="menu-item @if ($title == 'User') active @endif">
+        <a href="{{ route('admin.user.index') }}" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-user"></i>
+            <div data-i18n="Analytics">User</div>
+        </a>
+    </li>
     <li class="menu-header small text-uppercase">
         <span class="menu-header-text">Tools</span>
     </li>

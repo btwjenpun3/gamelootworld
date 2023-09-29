@@ -36,6 +36,18 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="basic-default-worth">Type</label>
+                                <div class="col-sm-10">
+                                    <select type="text" name="type"
+                                        class="form-control @error('worth') is-invalid @enderror">
+                                        <option value="Game" @if ($post->type == 'Game') selected @endif>Game
+                                        </option>
+                                        <option value="DLC" @if ($post->type == 'DLC') selected @endif>DLC
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="basic-default-platforms">Platforms</label>
                                 <div class="col-sm-10">
                                     <input type="text" name="platforms"

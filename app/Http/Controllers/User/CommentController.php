@@ -12,13 +12,14 @@ class CommentController extends Controller
     public function store(Request $request) {
         $user = User::find(auth()->id());
         $validate = $request->validate([
-            'comment' => 'required|max:200'
+            'comment' => 'required|max:500'
         ]);
         if($validate) {
             Comment::create([
                 'user_id' => $user->id,
                 'post_id' => $request->id,
-                'comments' => $request->comment
+                'comments' => $request->comment,
+                'status' => 'approved'
             ]);
             return redirect()->route('loot.index', ['slug' => $request->slug]);
         }

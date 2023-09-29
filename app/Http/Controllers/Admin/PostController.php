@@ -85,6 +85,7 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required',
             'worth' => 'required',
+            'type' => 'required',
             'platforms' => 'required',
             'description' => 'required',
             'instructions' => 'required',
@@ -99,6 +100,7 @@ class PostController extends Controller
             'title' => $request->title,
             'platforms' => $request->platforms,
             'worth' => $request->worth,
+            'type' => $request->type,
             'description' => $request->description,
             'instructions' => $request->instructions,
             'open_giveaway_url' => $request->original_url,

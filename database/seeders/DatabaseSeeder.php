@@ -26,7 +26,8 @@ class DatabaseSeeder extends Seeder
              'name' => 'Muhamad Helmi',
              'email' => 'muhamadkelmi@gmail.com',
              'password' => bcrypt('M3g4bl00d2018!@#'),
-             'role_id' => 1
+             'role_id' => 1,
+             'status' => 'active'
          ]);         
     }
 }
