@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Platform;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -42,11 +43,19 @@ class PostController extends Controller
         $imageData = file_get_contents($request->image);
         $imageName = basename($request->image);
         $imagePath = 'post/images/' . $imageName;
+
+        $platforms = $request->platforms;
+        $platform = explode(',', $platforms);
+        $get_platform = [];
+        foreach($platform as $p) {
+            $get_platform[] = $p;
+        }              
+        $platformIds = Platform::whereIn('name', array_map('trim',$get_platform))->pluck('id')->toArray();
         Storage::disk('public')->put($imagePath, $imageData);
         if($request->status != 'Expired') {
             $status = 'Active';
         };
-        Post::create([
+        $post = Post::create([
             'source_id' => $request->source_id,
             'title' => $request->title,
             'platforms' => $request->platforms,
@@ -63,6 +72,7 @@ class PostController extends Controller
             'slug' => Str::slug($request->title),
             'status' => $status
         ]);
+        $post->platforms()->attach($platformIds);
         return redirect()->route('admin.posts.index')->with(['created' => 'Post successfully created']);
     }
 

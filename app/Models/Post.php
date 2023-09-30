@@ -16,4 +16,8 @@ class Post extends Model
     public function users() {
         return $this->belongsToMany(User::class, 'user_posts', 'post_id', 'user_id');
     }
+
+    public function platforms() {
+        return $this->belongsToMany(Platform::class, 'post_platforms', 'post_id', 'platform_id');
+    }
 }

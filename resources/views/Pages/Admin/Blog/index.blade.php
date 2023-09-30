@@ -56,14 +56,18 @@
                     {
                         data: 'title',
                         render: function(data, type, row) {
+                            var id = row.id;
                             var title = row.title;
                             var now = new Date();
                             var created_at = new Date(row.created_at);
+                            var url = '{{ route('admin.posts.edit', ['id' => ':id']) }}';
+                            url = url.replace(':id', id);
                             created_at.setMinutes(created_at.getMinutes() + 1);
                             if (now <= created_at) {
-                                return title + '<span class="badge bg-label-danger">New</span>';
+                                return '<a href="' + url + '">' + title +
+                                    '</a><span class="badge bg-label-danger">New</span>';
                             } else {
-                                return title;
+                                return '<a href="' + url + '">' + title + '</a>';
                             }
                         }
                     },
@@ -97,7 +101,7 @@
                 ],
                 order: [
                     // Urutkan berdasarkan kolom 'created_id' secara menaik (asc)
-                    [0, 'desc'] // Ganti dengan indeks kolom 'created_id' yang sesuai
+                    [0, 'asc'] // Ganti dengan indeks kolom 'created_id' yang sesuai
                 ]
             });
         });

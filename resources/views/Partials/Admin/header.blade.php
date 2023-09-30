@@ -43,7 +43,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
-                                    <span class="fw-semibold d-block"><x-global-header></x-global-header></span>
+                                    <span class="fw-semibold d-block"><x-global-header /></span>
                                     <small class="text-muted">Admin</small>
                                 </div>
                             </div>

@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use App\Models\Post;
+use App\Models\Platform;
 use App\Models\FetchStatus;
 use Illuminate\Support\Facades\Storage;
 
@@ -28,14 +29,21 @@ class FetchController extends Controller
         $lastKey = count($data) - 1;
         FetchStatus::create([
                 'status' => 'updated'
-            ]);
-        for($x = $lastKey; $x >= 0; $x--) {
+            ]);        
+        for($x = 0; $x <= $lastKey; $x++) {
             $imageUrl = $data[$x]->image;
             $imageData = file_get_contents($imageUrl);
             $imageName = basename($imageUrl);
             $imagePath = 'post/images/' . $imageName;
+            $platforms = $data[$x]->platforms;
+            $platform = explode(',', $platforms);
+            $get_platform = [];
+            foreach($platform as $p) {
+                $get_platform[] = $p;
+            }              
+            $platformIds = Platform::whereIn('name', array_map('trim',$get_platform))->pluck('id')->toArray();
             Storage::disk('public')->put($imagePath, $imageData);
-            Post::create([
+            $post = Post::create([
                 'source_id' => $data[$x]->id,
                 'title' => $data[$x]->title,
                 'worth' => str_replace('$', '', $data[$x]->worth),
@@ -51,7 +59,8 @@ class FetchController extends Controller
                 'end_date' => $data[$x]->end_date,
                 'status' => $data[$x]->status,
                 'slug' => Str::slug($data[$x]->title)
-            ]);            
+            ]); 
+            $post->platforms()->attach($platformIds);           
         }        
         return response()->json([
             'code' => 200,
@@ -77,9 +86,16 @@ class FetchController extends Controller
             $imageData = file_get_contents($imageUrl);
             $imageName = basename($imageUrl);
             $imagePath = 'post/images/' . $imageName;
+            $platforms = $data[$x]->platforms;
+            $platform = explode(',', $platforms);
+            $get_platform = [];
+            foreach($platform as $p) {
+                $get_platform[] = $p;
+            }              
+            $platformIds = Platform::whereIn('name', array_map('trim',$get_platform))->pluck('id')->toArray();
             Storage::disk('public')->put($imagePath, $imageData);
 
-            Post::create([
+            $post = Post::create([
                 'source_id' => $data[$x]->id,
                 'title' => $data[$x]->title,
                 'worth' => str_replace('$', '', $data[$x]->worth),
@@ -95,7 +111,8 @@ class FetchController extends Controller
                 'end_date' => $data[$x]->end_date,
                 'status' => $data[$x]->status,
                 'slug' => Str::slug($data[$x]->title)
-            ]);           
+            ]); 
+            $post->platforms()->attach($platformIds);           
         }
         return response()->json([
             'code' => 200,
@@ -135,8 +152,15 @@ class FetchController extends Controller
             $imageData = file_get_contents($imageUrl);
             $imageName = basename($imageUrl);
             $imagePath = 'post/images/' . $imageName;
+             $platforms = $data[$x]->platforms;
+            $platform = explode(',', $platforms);
+            $get_platform = [];
+            foreach($platform as $p) {
+                $get_platform[] = $p;
+            }              
+            $platformIds = Platform::whereIn('name', array_map('trim',$get_platform))->pluck('id')->toArray();
             Storage::disk('public')->put($imagePath, $imageData);
-            Post::create([
+            $post = Post::create([
                 'source_id' => $data[$x]->id,
                 'title' => $data[$x]->title,
                 'worth' => str_replace('$', '', $data[$x]->worth),
@@ -152,7 +176,8 @@ class FetchController extends Controller
                 'end_date' => $data[$x]->end_date,
                 'status' => $data[$x]->status,
                 'slug' => Str::slug($data[$x]->title)
-            ]);     
+            ]); 
+            $post->platforms()->attach($platformIds);     
             $titles[] = $data[$x]->title; 
             $links[] = env('APP_URL').'/'.Str::slug($data[$x]->title);      
         }

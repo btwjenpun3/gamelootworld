@@ -49,10 +49,12 @@
                                         <div class="product__item__text">
                                             <ul>
                                                 @php
-                                                    $platforms = explode(',', $steam->platforms);
+                                                    $platforms = $steam->platforms()->get();
                                                 @endphp
                                                 @foreach ($platforms as $platform)
-                                                    <li>{{ $platform }}</li>
+                                                    <a href="{{ route('platforms.index', ['slug' => $platform->slug]) }}">
+                                                        <li>{{ $platform->name }}</li>
+                                                    </a>
                                                 @endforeach
                                             </ul>
                                             <h5><a href="{{ $steam->slug }}">{{ $steam->title }}</a></h5>
@@ -108,10 +110,12 @@
                                         <div class="product__item__text">
                                             <ul>
                                                 @php
-                                                    $platforms = explode(',', $epic->platforms);
+                                                    $platforms = $epic->platforms()->get();
                                                 @endphp
                                                 @foreach ($platforms as $platform)
-                                                    <li>{{ $platform }}</li>
+                                                    <a href="{{ route('platforms.index', ['slug' => $platform->slug]) }}">
+                                                        <li>{{ $platform->name }}</li>
+                                                    </a>
                                                 @endforeach
                                             </ul>
                                             <h5><a href="{{ $epic->slug }}">{{ $epic->title }}</a></h5>
@@ -167,10 +171,12 @@
                                         <div class="product__item__text">
                                             <ul>
                                                 @php
-                                                    $platforms = explode(',', $gog->platforms);
+                                                    $platforms = $gog->platforms()->get();
                                                 @endphp
                                                 @foreach ($platforms as $platform)
-                                                    <li>{{ $platform }}</li>
+                                                    <a href="{{ route('platforms.index', ['slug' => $platform->slug]) }}">
+                                                        <li>{{ $platform->name }}</li>
+                                                    </a>
                                                 @endforeach
                                             </ul>
                                             <h5><a href="{{ $gog->slug }}">{{ $gog->title }}</a></h5>
@@ -219,17 +225,17 @@
                                                 @elseif ($itch->worth >= '10')
                                                     <div class="legendary">${{ $itch->worth }}</div>
                                                 @endif
-                                                {{-- <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                            <div class="view"><i class="fa fa-eye"></i> 9141</div> --}}
                                             </div>
                                         </a>
                                         <div class="product__item__text">
                                             <ul>
                                                 @php
-                                                    $platforms = explode(',', $itch->platforms);
+                                                    $platforms = $itch->platforms()->get();
                                                 @endphp
                                                 @foreach ($platforms as $platform)
-                                                    <li>{{ $platform }}</li>
+                                                    <a href="{{ route('platforms.index', ['slug' => $platform->slug]) }}">
+                                                        <li>{{ $platform->name }}</li>
+                                                    </a>
                                                 @endforeach
                                             </ul>
                                             <h5><a href="{{ $itch->slug }}">{{ $itch->title }}</a></h5>
@@ -285,10 +291,12 @@
                                         <div class="product__item__text">
                                             <ul>
                                                 @php
-                                                    $platforms = explode(',', $dlc->platforms);
+                                                    $platforms = $dlc->platforms()->get();
                                                 @endphp
                                                 @foreach ($platforms as $platform)
-                                                    <li>{{ $platform }}</li>
+                                                    <a href="{{ route('platforms.index', ['slug' => $platform->slug]) }}">
+                                                        <li>{{ $platform->name }}</li>
+                                                    </a>
                                                 @endforeach
                                             </ul>
                                             <h5><a href="{{ $dlc->slug }}">{{ $dlc->title }}</a></h5>

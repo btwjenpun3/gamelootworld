@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\User\CollectionController;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Platform;
 use App\Models\UserPost;
 
 class BlogController extends Controller

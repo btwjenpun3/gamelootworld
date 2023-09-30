@@ -16,6 +16,7 @@ use App\Http\Controllers\User\CommentController;
 use App\Http\Controllers\User\RegisterController;
 use App\Http\Controllers\User\CollectionController;
 use App\Http\Controllers\Admin\AdminCommentController;
+use App\Http\Controllers\PlatformController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +48,13 @@ Route::prefix('/')
                 Route::get('/gog', 'gog')->name('gog');
                 Route::get('/itch.io', 'itch')->name('itch');
             });
+    
+    Route::prefix('/platforms')
+        ->name('platforms.')
+        ->controller(PlatformController::class)
+        ->group(function(){
+            Route::get('/{slug}', 'index')->name('index');
+        });
     
     Route::prefix('/')
         ->name('loot.')

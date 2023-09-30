@@ -22,8 +22,6 @@
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="anime__details__pic set-bg" data-setbg="{{ asset('/storage/post/images/' . $image) }}">
-                            {{-- <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                            <div class="view"><i class="fa fa-eye"></i> 9141</div> --}}
                         </div>
                     </div>
                     <div class="col-lg-9">

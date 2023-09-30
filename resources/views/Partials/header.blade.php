@@ -24,7 +24,11 @@
                                     <li><a href="{{ route('loots.itch') }}">Itch.io</a></li>
                                 </ul>
                             </li>
-                            {{-- <li><a href="#">Contacts</a></li> --}}
+                            <li><a href="#">Platforms <span class="arrow_carrot-down"></span></a>
+                                <ul class="dropdown">
+                                    <x-global-platform />
+                                </ul>
+                            </li>
                         </ul>
                     </nav>
                 </div>
