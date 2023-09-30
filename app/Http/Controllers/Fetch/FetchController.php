@@ -66,9 +66,10 @@ class FetchController extends Controller
         $content = HTTP::get($this->url);
         $urlController = new UrlController();
         $data = json_decode($content);
-        $filteredData = array_filter($data, function ($item) use ($getDateFromMaxId) {            
+        $filteredData = array_filter($data, function ($item) use ($getDateFromMaxId) {           
             return strtotime($item->published_date) > strtotime($getDateFromMaxId);           
         });
+        
         $lastKey = count($filteredData) - 1;
         for($x = 0; $x <= $lastKey; $x++) {
             //!!---- Ambil Informasi Gambar ----!!

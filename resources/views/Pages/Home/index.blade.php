@@ -184,6 +184,65 @@
             </div>
             {{-- GOG Games --}}
 
+            {{-- Itch Games --}}
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="trending__product">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8 col-sm-8">
+                                <div class="section-title">
+                                    <h4>Itch.io Free Giveaways</h4>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <div class="btn__all">
+                                    <a href="{{ route('loots.itch') }}" class="primary-btn">View All <span
+                                            class="arrow_right"></span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            @foreach ($itchs as $itch)
+                                <div class="col-lg-3 col-md-6 col-sm-6">
+                                    <div class="product__item">
+                                        <a href="{{ $itch->slug }}">
+                                            <div class="product__item__pic set-bg"
+                                                data-setbg="{{ asset('/storage/post/images/' . $itch->image) }}">
+                                                @if ($itch->worth >= 'N/A' && $itch->status == 'Active')
+                                                    <div class="standard">{{ $itch->worth }}</div>
+                                                @elseif($itch->status == 'Expired')
+                                                    <div class="expired">Expired</div>
+                                                @elseif ($itch->worth >= '0' && $itch->worth <= '4.99')
+                                                    <div class="standard">${{ $itch->worth }}</div>
+                                                @elseif ($itch->worth >= '5' && $itch->worth <= '9.99')
+                                                    <div class="epic">${{ $itch->worth }}</div>
+                                                @elseif ($itch->worth >= '10')
+                                                    <div class="legendary">${{ $itch->worth }}</div>
+                                                @endif
+                                                {{-- <div class="comment"><i class="fa fa-comments"></i> 11</div>
+                                            <div class="view"><i class="fa fa-eye"></i> 9141</div> --}}
+                                            </div>
+                                        </a>
+                                        <div class="product__item__text">
+                                            <ul>
+                                                @php
+                                                    $platforms = explode(',', $itch->platforms);
+                                                @endphp
+                                                @foreach ($platforms as $platform)
+                                                    <li>{{ $platform }}</li>
+                                                @endforeach
+                                            </ul>
+                                            <h5><a href="{{ $itch->slug }}">{{ $itch->title }}</a></h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- Itch Games --}}
+
             {{-- DLCs --}}
             <div class="row">
                 <div class="col-lg-12">

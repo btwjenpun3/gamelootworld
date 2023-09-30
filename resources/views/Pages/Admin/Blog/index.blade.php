@@ -1,5 +1,9 @@
 @extends('Layouts.Admin.admin')
 
+@push('css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+@endpush
+
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Dashboard /</span> Posts</h4>
@@ -19,8 +23,8 @@
             @if (session()->has('created'))
                 <div class="alert alert-success col-md-6 ms-3">{{ session('created') }}</div>
             @endif
-            <div class="table-responsive text-nowrap">
-                <table class="table">
+            <div class="table-responsive text-nowrap m-4">
+                <table class="table table-striped" id="posts">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -31,52 +35,71 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="table-border-bottom-0">
-                        @foreach ($posts as $post => $item)
-                            <tr>
-                                <td>{{ ($posts->currentPage() - 1) * $posts->perPage() + $post + 1 }}</td>
-                                <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                                    <a href="{{ route('admin.posts.edit', ['id' => $item->id]) }}"><strong>{{ $item->title }}</strong>
-                                        @if ($now <= \Carbon\Carbon::parse($item->created_at)->addMinutes(5))
-                                            <span class="badge bg-label-danger me-1">New</span>
-                                        @endif
-                                    </a>
-                                </td>
-                                <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $item->published_date)->format('d F Y') }}
-                                </td>
-                                @if ($item->end_date == 'N/A')
-                                    <td>N/A</td>
-                                @else
-                                    <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $item->end_date)->format('d F Y') }}
-                                    </td>
-                                @endif
-                                @if ($item->status == 'Active')
-                                    <td><span class="badge bg-label-success me-1">Active</span></td>
-                                @elseif($item->status == 'Expired')
-                                    <td><span class="badge bg-label-secondary me-1">Expired</span></td>
-                                @endif
-                                <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                            data-bs-toggle="dropdown">
-                                            <i class="bx bx-dots-vertical-rounded"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item"
-                                                href="{{ route('admin.posts.edit', ['id' => $item->id]) }}"><i
-                                                    class="bx bx-edit-alt me-1"></i>
-                                                Edit</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
                 </table>
-            </div>
-            <div class="card mt-5">
-                {{ $posts->links() }}
             </div>
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#posts').DataTable({
+                serverSide: true,
+                responsive: true,
+                ajax: '{{ route('admin.datatable.posts') }}',
+                columns: [{
+                        data: 'id',
+                    },
+                    {
+                        data: 'title',
+                        render: function(data, type, row) {
+                            var title = row.title;
+                            var now = new Date();
+                            var created_at = new Date(row.created_at);
+                            created_at.setMinutes(created_at.getMinutes() + 1);
+                            if (now <= created_at) {
+                                return title + '<span class="badge bg-label-danger">New</span>';
+                            } else {
+                                return title;
+                            }
+                        }
+                    },
+                    {
+                        data: 'published_date',
+                    },
+                    {
+                        data: 'end_date',
+                    },
+                    {
+                        data: 'status',
+                        render: function(data, type, row) {
+                            var status = row.status;
+                            if (status == 'Active') {
+                                return '<span class="badge bg-label-success">Active</span>';
+                            } else {
+                                return '<span class="badge bg-label-secondary">Expired</span>';
+                            }
+                        }
+                    },
+                    {
+                        data: 'id',
+                        render: function(data, type, row) {
+                            var id = row.id;
+                            var url = '{{ route('admin.posts.edit', ['id' => ':id']) }}';
+                            url = url.replace(':id', id);
+                            return '<a href="' + url +
+                                '"><button class="btn-xs btn-primary">Edit</button></a>';
+                        }
+                    }
+                ],
+                order: [
+                    // Urutkan berdasarkan kolom 'created_id' secara menaik (asc)
+                    [0, 'desc'] // Ganti dengan indeks kolom 'created_id' yang sesuai
+                ]
+            });
+        });
+    </script>
+@endpush

@@ -20,9 +20,17 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) { 
             $user = Auth::user();
-            if($user->role->name == 'member' || $user->role->name == 'admin') {
+            if($user->status == 'active') {
                 return redirect()->route('home.index')->with([
                     'login_success' => 'Welcome back, ' . auth()->user()->name
+                ]);
+            
+            } else if ($user->status == 'banned') {
+                Auth::logout(); 
+                $request->session()->invalidate(); 
+                $request->session()->regenerateToken();
+                return redirect()->route('login.index')->with([
+                    'login_error' => 'Your account get banned. Please contact us if you feel its mistake.'
                 ]);
             } else {
                 return redirect()->route('login.index')->with([
@@ -39,6 +47,6 @@ class LoginController extends Controller
         Auth::logout(); 
         $request->session()->invalidate(); 
         $request->session()->regenerateToken(); 
-        return redirect()->route('home.index');
+        return redirect()->route('login.index')->with(['logout_success' => 'Logout success.']);
     }
 }

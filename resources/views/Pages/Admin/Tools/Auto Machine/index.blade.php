@@ -184,3 +184,7 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script src="/admin/assets/vendor/libs/jquery/jquery.js"></script>
+@endpush

@@ -46,9 +46,9 @@
                             <div>
                                 <label for="status" class="form-label">Status</label>
                                 <select class="form-control mb-3" name="status" id="status" aria-describedby="status">
-                                    <option value="1" @if ($user->status == 'active') selected ( @endif)>Active
+                                    <option value="active" @if ($user->status == 'active') selected ( @endif)>Active
                                     </option>
-                                    <option value="2" @if ($user->status == 'banned') selected ( @endif)>Banned
+                                    <option value="banned" @if ($user->status == 'banned') selected ( @endif)>Banned
                                     </option>
                                 </select>
                             </div>

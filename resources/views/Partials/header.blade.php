@@ -19,10 +19,11 @@
                                     <li><a href="{{ route('loots.dlcs') }}">All DLCs</a></li>
                                     <li><a href="{{ route('loots.steam') }}">Steam</a></li>
                                     <li><a href="{{ route('loots.epic') }}">Epic Store</a></li>
-                                    <li><a href="{{ route('loots.gog') }}">GOG Store</a></li>
+                                    <li><a href="{{ route('loots.gog') }}">GOG</a></li>
+                                    <li><a href="{{ route('loots.itch') }}">Itch.io</a></li>
                                 </ul>
                             </li>
-                            <li><a href="#">Contacts</a></li>
+                            {{-- <li><a href="#">Contacts</a></li> --}}
                         </ul>
                     </nav>
                 </div>
@@ -37,12 +38,20 @@
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="{{ route('collection.index') }}"
                                 style="color:black;font-size:15px;"><i class="fa fa-briefcase"></i>
-                                My Collections</a>
+                                My Collections <code>(soon)</code></a>
                             <a class="dropdown-item" href="#" style="color:black;font-size:15px;"><i
-                                    class="fa fa-cog"></i> Settings</a>
+                                    class="fa fa-cog"></i> Settings <code>(soon)</code>
+                            </a>
                             <hr>
+                            @if (auth()->user()->role->name == 'admin')
+                                <a class="dropdown-item" href="{{ route('admin.dashboard') }}"
+                                    style="color:rgb(170, 147, 19);font-size:15px;"><i class="fa fa-star"></i> Admin
+                                    Panel
+                                </a>
+                            @endif
                             <a class="dropdown-item" href="{{ route('login.logout') }}"
-                                style="color:red;font-size:15px;"><i class="fa fa-sign-out"></i> Logout</a>
+                                style="color:red;font-size:15px;"><i class="fa fa-sign-out"></i> Logout
+                            </a>
                         </div>
                     @else
                         <a href="{{ route('login.index') }}"><span class="icon_profile"></span></a>

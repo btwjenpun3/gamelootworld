@@ -10,7 +10,7 @@ use App\Models\UserPost;
 class BlogController extends Controller
 {
     public function games() {    
-        $data = Post::where('type', 'Game')->latest('source_id')->paginate(12);
+        $data = Post::where('type', 'Game')->latest()->paginate(12);
         $count = Post::where('type', 'Game')->count(); 
         return view('Pages.Blog.index', [
             'title' => 'Games Free Giveaways',
@@ -20,7 +20,7 @@ class BlogController extends Controller
     } 
 
     public function dlcs() {    
-        $data = Post::where('type', 'DLC')->latest('source_id')->paginate(12);  
+        $data = Post::where('type', 'DLC')->latest()->paginate(12);  
         $count = Post::where('type', 'DLC')->count();
         return view('Pages.Blog.index', [
             'title' => 'DLCs Free Giveaways',
@@ -30,7 +30,7 @@ class BlogController extends Controller
     }
 
     public function steam() {    
-        $data = Post::where('platforms', 'LIKE', '%steam%')->where('type', 'Game')->latest('source_id')->paginate(12);  
+        $data = Post::where('platforms', 'LIKE', '%steam%')->where('type', 'Game')->latest()->paginate(12);  
         $count = Post::where('platforms', 'LIKE', '%steam%')->where('type', 'Game')->count(); 
         return view('Pages.Blog.index', [
             'title' => 'Steam Free Giveaways',
@@ -40,7 +40,7 @@ class BlogController extends Controller
     } 
 
     public function epic() {    
-        $data = Post::where('platforms', 'LIKE', '%epic%')->where('type', 'Game')->latest('source_id')->paginate(12);  
+        $data = Post::where('platforms', 'LIKE', '%epic%')->where('type', 'Game')->latest()->paginate(12);  
         $count = Post::where('platforms', 'LIKE', '%epic%')->where('type', 'Game')->count(); 
         return view('Pages.Blog.index', [
             'title' => 'Epic Free Giveaways',
@@ -50,10 +50,20 @@ class BlogController extends Controller
     } 
 
     public function gog() {    
-        $data = Post::where('platforms', 'LIKE', '%gog%')->where('type', 'Game')->latest('source_id')->paginate(12);  
+        $data = Post::where('platforms', 'LIKE', '%gog%')->where('type', 'Game')->latest()->paginate(12);  
         $count = Post::where('platforms', 'LIKE', '%gog%')->where('type', 'Game')->count(); 
         return view('Pages.Blog.index', [
             'title' => 'GOG Free Giveaways',
+            'datas' => $data,
+            'count' => $count
+        ]);
+    } 
+
+    public function itch() {    
+        $data = Post::where('platforms', 'LIKE', '%itch%')->where('type', 'Game')->latest()->paginate(12);  
+        $count = Post::where('platforms', 'LIKE', '%itch%')->where('type', 'Game')->count(); 
+        return view('Pages.Blog.index', [
+            'title' => 'Itch.io Free Giveaways',
             'datas' => $data,
             'count' => $count
         ]);

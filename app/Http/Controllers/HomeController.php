@@ -14,24 +14,13 @@ class HomeController extends Controller
         $steam = Post::where('platforms', 'LIKE', '%steam%')->where('type', 'Game')->limit(4)->latest()->get(); 
         $epic = Post::where('platforms', 'LIKE', '%epic%')->where('type', 'Game')->limit(4)->latest()->get();
         $gog = Post::where('platforms', 'LIKE', '%gog%')->where('type', 'Game')->limit(4)->latest()->get(); 
-        if(auth()->check()) {            
-                $call = new CollectionController;
-                $collections = $call->getCollections();
-                    return view('Pages.Home.index', [
-                    'steams' => $steam,
-                    'epics' => $epic,
-                    'dlcs' => $dlcs,
-                    'gogs' => $gog,
-                    'collections' => $collections
-                ]);                                      
-        } else {
+        $itch = Post::where('platforms', 'LIKE', '%itch%')->where('type', 'Game')->limit(4)->latest()->get();       
             return view('Pages.Home.index', [
                 'steams' => $steam,
                 'epics' => $epic,
                 'dlcs' => $dlcs,
-                'gogs' => $gog
-            ]);
-        }
-        
-    }    
+                'gogs' => $gog,
+                'itchs' => $itch
+            ]);       
+        }    
 }

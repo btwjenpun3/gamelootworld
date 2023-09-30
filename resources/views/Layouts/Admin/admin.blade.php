@@ -14,41 +14,33 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
-
+    
     <title>GameGratis - Admin | {{ $title }}</title>
     <meta name="description" content="" />
-    <!-- Favicon -->
+    
     <link rel="icon" type="image/x-icon" href="/admin/assets/img/favicon/favicon.ico" />
-    <!-- Fonts -->
+    
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
       rel="stylesheet"
     />
-    <!-- Icons. Uncomment required icon fonts -->
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <!-- Core CSS -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>    <!-- Core CSS -->
     <link rel="stylesheet" href="/admin/assets/vendor/css/core.css" class="template-customizer-core-css" />
     <link rel="stylesheet" href="/admin/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
-    <link rel="stylesheet" href="/admin/assets/css/demo.css" />
-    <!-- Vendors CSS -->
+    
+    @stack('css')
+   
     <link rel="stylesheet" href="/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
     <link rel="stylesheet" href="/admin/assets/vendor/libs/apex-charts/apex-charts.css" />
-    <!-- Page CSS -->
-    <!-- Helpers -->
     <script src="/admin/assets/vendor/js/helpers.js"></script>
-
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="/admin/assets/js/config.js"></script>
   </head>
 
   <body>
-    <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
-        <!-- Menu -->
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
             <a href="index.html" class="app-brand-link">
@@ -151,24 +143,15 @@
       <!-- Overlay -->
       <div class="layout-overlay layout-menu-toggle"></div>
     </div>
-    <!-- / Layout wrapper -->
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
-    <script src="/admin/assets/vendor/libs/jquery/jquery.js"></script>
+
+    @stack('scripts')
+
     <script src="/admin/assets/vendor/libs/popper/popper.js"></script>
     <script src="/admin/assets/vendor/js/bootstrap.js"></script>
     <script src="/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-
     <script src="/admin/assets/vendor/js/menu.js"></script>
-    <!-- endbuild -->
-
-    <!-- Vendors JS -->
     <script src="/admin/assets/vendor/libs/apex-charts/apexcharts.js"></script>
-
-    <!-- Main JS -->
     <script src="/admin/assets/js/main.js"></script>
-
-    <!-- Page JS -->
     <script src="/admin/assets/js/dashboards-analytics.js"></script>
   </body>
 </html>

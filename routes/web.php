@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\SingleBlogController;
 use App\Http\Controllers\User\LoginController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\DataTableController;
 use App\Http\Controllers\Fetch\FetchController;
 use App\Http\Controllers\User\CommentController;
 use App\Http\Controllers\User\RegisterController;
@@ -44,6 +45,7 @@ Route::prefix('/')
                 Route::get('/steam', 'steam')->name('steam');
                 Route::get('/epic', 'epic')->name('epic');
                 Route::get('/gog', 'gog')->name('gog');
+                Route::get('/itch.io', 'itch')->name('itch');
             });
     
     Route::prefix('/')
@@ -60,9 +62,19 @@ Route::prefix('/auth/private/admin')
     ->controller(AdminController::class)
     ->group(function () {
         Route::get('/login', 'index')->name('index');
-        Route::post('/login', 'login')->name('login');
-        Route::get('/', 'dashboard')->name('dashboard')->middleware('isadmin');        
+        Route::post('/login', 'login')->name('login')->middleware('isloginadmin');
+        Route::get('/', 'dashboard')->name('dashboard')->middleware('isadmin'); 
+        Route::get('/logout', 'logout')->name('logout')->middleware('isadmin');       
     });
+
+    Route::prefix('/auth/private/admin/datatable')
+        ->name('admin.datatable.')
+        ->middleware('isadmin')
+        ->controller(DataTableController::class)
+        ->group(function() {
+            Route::get('/users', 'users')->name('users');
+            Route::get('/posts', 'posts')->name('posts');
+        }); 
 
     Route::prefix('/auth/private/admin/posts')
         ->name('admin.posts.')
@@ -102,6 +114,7 @@ Route::prefix('/auth/private/admin')
             Route::get('/fetch', 'fetchGameContentFromUpstream')->name('all');
             Route::get('/fetch/{source_id?}', 'fetchGameContentUsingId')->name('id');
             Route::get('/fetch/get/update', 'updateGameContentFromUpstream')->name('update');
+            // Route::get('/fetch/get/update', 'updateGameContentFromUpstream')->name('update');
         });
 
     Route::prefix('/auth/private/admin/user')
@@ -122,13 +135,14 @@ Route::prefix('/user')
     ->name('login.')
     ->controller(LoginController::class)
     ->group(function() {
-        Route::get('/login', 'index')->name('index');
-        Route::post('/login', 'login')->name('login');
-        Route::get('/logout', 'logout')->name('logout')->middleware('ismember');
+        Route::get('/login', 'index')->name('index')->middleware('islogin');
+        Route::post('/login', 'login')->name('login')->middleware('islogin');
+        Route::get('/logout', 'logout')->name('logout');
     });
 
 Route::prefix('/user/register')
     ->name('register.')
+    ->middleware('islogin')
     ->controller(RegisterController::class)
     ->group(function() {
         Route::get('/', 'index')->name('index');

@@ -16,14 +16,15 @@ class RegisterController extends Controller
         $validate = $request->validate([
             'name' => 'required|max:50',
             'email' => 'required|email|unique:users,email|max:255',
-            'password' => 'required|min:6'
+            'password' => 'required|min:6',
         ]);
         if($validate) {
             User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
-                'role_id' => 2
+                'role_id' => 2,
+                'status' => 'active'
             ]);
             return redirect()->route('login.index')->with(['registration_success' => 'Registration success. Please login.']);
         } else {

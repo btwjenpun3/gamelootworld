@@ -1,56 +1,97 @@
 @extends('Layouts.Admin.admin')
 
+@push('css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+@endpush
+
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Dashboard /</span> User</h4>
         <div class="card">
             <h5 class="card-header">Users Management</h5>
-            <div class="col-md-6 ms-4">
-                <div class="row">
-                </div>
-            </div>
-            <div class="table-responsive text-nowrap">
-                <table class="table">
+            <div class="table-responsive text-nowrap m-3">
+                <table class="table table-striped" id="users">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Email</th>
                             <th>Name</th>
-                            <th>Created</th>
+                            <th>Created At</th>
                             <th>Role</th>
                             <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
-                    @foreach ($users as $user => $item)
-                        <tbody class="table-border-bottom-0">
-                            <tr>
-                                <td>{{ ($users->currentPage() - 1) * $users->perPage() + $user + 1 }}</td>
-                                <td><a href="{{ route('admin.user.edit', ['id' => $item->id]) }}">{{ $item->email }}</a>
-                                </td>
-                                <td>{{ $item->name }}</td>
-                                <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d F Y, H:i:s') }}</td>
-                                <td>
-                                    @if ($item->role_id == '1')
-                                        <span class="badge bg-label-primary me-1">Admin</span>
-                                    @elseif($item->role_id == '2')
-                                        <span class="badge bg-label-secondary me-1">Member</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if ($item->status == 'active')
-                                        <span class="badge bg-label-success me-1">Active</span>
-                                    @elseif ($item->status == 'banned')
-                                        <span class="badge bg-label-danger me-1">Banned</span>
-                                    @endif
-                                </td>
-                            </tr>
-                        </tbody>
-                    @endforeach
                 </table>
-            </div>
-            <div class="card mt-5">
-                {{ $users->links() }}
             </div>
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#users').DataTable({
+                serverSide: true,
+                responsive: true,
+                ajax: '{{ route('admin.datatable.users') }}',
+                columns: [{
+                        data: 'id',
+                    },
+                    {
+                        data: 'name',
+                    },
+                    {
+                        data: 'email',
+                    },
+                    {
+                        data: 'created_at',
+                        render: function(data) {
+                            var date = new Date(data);
+                            var options = {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                            };
+                            return date.toLocaleDateString('id-ID', options)
+                        }
+                    },
+                    {
+                        data: 'role_id',
+                        render: function(data, type, row) {
+                            var role_id = row.role_id;
+                            if (role_id == '1') {
+                                return '<span class="badge bg-label-primary">Admin</span>'
+                            } else if (role_id == '2') {
+                                return '<span class="badge bg-label-secondary">Member</span>'
+                            }
+                        }
+                    },
+                    {
+                        data: 'status',
+                        render: function(data, type, row) {
+                            var status = row.status;
+                            if (status == 'active') {
+                                return '<span class="badge bg-label-success">Active</span>'
+                            } else if (status == 'banned') {
+                                return '<span class="badge bg-label-danger">Banned</span>'
+                            }
+                        }
+                    }, {
+                        data: 'id',
+                        render: function(data, type, row) {
+                            var id = row.id;
+                            var url = '{{ route('admin.user.edit', ['id' => ':id']) }}';
+                            url = url.replace(':id', id);
+                            return '<a href="' + url +
+                                '"><button class="btn-xs btn-primary">Edit</button></a>';
+                        }
+                    }
+
+                ]
+            });
+        });
+    </script>
+@endpush

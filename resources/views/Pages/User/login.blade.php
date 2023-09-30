@@ -15,6 +15,9 @@
                         @if (session()->has('forbidden'))
                             <div class="alert alert-danger col-md-11">{{ session('forbidden') }}</div>
                         @endif
+                        @if (session()->has('logout_success'))
+                            <div class="alert alert-success col-md-11">{{ session('logout_success') }}</div>
+                        @endif
                         @error('email')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror

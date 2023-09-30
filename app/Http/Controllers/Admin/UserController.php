@@ -33,13 +33,16 @@ class UserController extends Controller
             'status' => 'required'
         ]);
         if($validate){
-            User::where('id', $request->id)->update([
+            $data = [
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => bcrypt($request->password),
                 'role_id' => $request->role_id,
                 'status' => $request->status
-            ]);
+            ];   
+            if($request->filled('password')) {
+                $data['password'] = bcrypt($request->password);
+            }    
+            User::where('id', $request->id)->update($data);     
             return redirect()->route('admin.user.edit', ['id' => $request->id])->with(['success' => 'User ' . $request->email . ' successfully updated']);
         }
         return redirect()->route('admin.user.edit', ['id' => $request->id])->with(['failed' => 'User ' . $request->email . ' failed updated']);
