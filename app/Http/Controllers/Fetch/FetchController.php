@@ -134,6 +134,24 @@ class FetchController extends Controller
             return response()->json($data);
         }        
     }  
+
+    public function updateContentPlatforms() {
+        $contents = Post::get();
+        foreach($contents as $content) {
+            $platforms = $content->platforms;
+            $platform = explode(',', $platforms);
+            $get_platform = [];
+            foreach($platform as $p) {
+                $get_platform[] = $p;
+            }              
+            $platformIds = Platform::whereIn('name', array_map('trim',$get_platform))->pluck('id')->toArray();
+            $update = Post::where('id', $content->id)->update([
+                'platforms' => $content->platform
+            ]);
+            $update->platforms()->attach($platformIds);
+        }
+        return response()->json('OK');
+    }
   
     // !! ------------------ Telegram Fetch ---------------------- !! //
     public function updateGameContentFromUpstreamToTelegram() {
@@ -152,7 +170,7 @@ class FetchController extends Controller
             $imageData = file_get_contents($imageUrl);
             $imageName = basename($imageUrl);
             $imagePath = 'post/images/' . $imageName;
-             $platforms = $data[$x]->platforms;
+            $platforms = $data[$x]->platforms;
             $platform = explode(',', $platforms);
             $get_platform = [];
             foreach($platform as $p) {
