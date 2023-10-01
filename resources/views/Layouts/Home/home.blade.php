@@ -21,7 +21,8 @@
     {{-- <link rel="stylesheet" href="/css/plyr.css" type="text/css">
     <link rel="stylesheet" href="/css/nice-select.css" type="text/css">
     <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css"> --}}
+     --}}
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="/css/style.css" type="text/css">
 </head>
 
@@ -64,9 +65,10 @@
     <script src="/js/bootstrap.min.js"></script>
     {{-- <script src="/js/player.js"></script>
     <script src="/js/jquery.nice-select.min.js"></script>
-    <script src="/js/mixitup.min.js"></script>
-    <script src="/js/jquery.slicknav.js"></script>
+    <script src="/js/mixitup.min.js"></script>    
     <script src="/js/owl.carousel.min.js"></script> --}}
+    <script src="/js/jquery.slicknav.js"></script>
     <script src="/js/main.js"></script>
 </body>
+
 </html>
