@@ -145,10 +145,10 @@ class FetchController extends Controller
                 $get_platform[] = $p;
             }              
             $platformIds = Platform::whereIn('name', array_map('trim',$get_platform))->pluck('id')->toArray();
-            $update = Post::where('id', $content->id)->update([
-                'platforms' => $content->platform
+            Post::where('id', $content->id)->update([
+                'platforms' => $content->platforms
             ]);
-            $update->platforms()->attach($platformIds);
+            $content->platforms()->attach($platformIds);
         }
         return response()->json('OK');
     }
