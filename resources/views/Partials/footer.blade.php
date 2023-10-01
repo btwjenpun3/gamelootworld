@@ -14,6 +14,7 @@
                 <div class="footer__nav">
                     <ul>
                         <li class="active"><a href="{{ route('home.index') }}">Homepage</a></li>
+                        <li class="active"><a href="{{ route('sitemap.index') }}">Sitemap</a></li>
                         {{-- <li><a href="./categories.html">Categories</a></li>
                         <li><a href="./blog.html">Our Blog</a></li>
                         <li><a href="#">Contacts</a></li> --}}
