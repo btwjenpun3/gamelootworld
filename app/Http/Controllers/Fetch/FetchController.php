@@ -93,6 +93,7 @@ class FetchController extends Controller
                 $get_platform[] = $p;
             }              
             $platformIds = Platform::whereIn('name', array_map('trim',$get_platform))->pluck('id')->toArray();
+            
             Storage::disk('public')->put($imagePath, $imageData);
 
             $post = Post::create([
@@ -112,8 +113,9 @@ class FetchController extends Controller
                 'status' => $data[$x]->status,
                 'slug' => Str::slug($data[$x]->title)
             ]); 
-            $post->platforms()->attach($platformIds);           
+            $post->platforms()->attach($platformIds);        
         }
+         
         return response()->json([
             'code' => 200,
             'message' => "Post successfully updated"
