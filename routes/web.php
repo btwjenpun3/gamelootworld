@@ -122,7 +122,7 @@ Route::prefix('/auth/private/admin')
             Route::get('/fetch', 'fetchGameContentFromUpstream')->name('all');
             Route::get('/fetch/{source_id?}', 'fetchGameContentUsingId')->name('id');
             Route::get('/fetch/get/update', 'updateGameContentFromUpstream')->name('update');
-            Route::get('/fetch/get/update', 'updateContentPlatforms')->name('update');
+            Route::get('/fetch/get/update/platforms', 'updateContentPlatforms')->name('update');
             // Route::get('/fetch/get/update', 'updateGameContentFromUpstream')->name('update');
         });
 
