@@ -17,6 +17,7 @@ use App\Http\Controllers\User\RegisterController;
 use App\Http\Controllers\User\CollectionController;
 use App\Http\Controllers\Admin\AdminCommentController;
 use App\Http\Controllers\PlatformController;
+use App\Http\Controllers\SiteMapController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,16 @@ use App\Http\Controllers\PlatformController;
 |
 */
 
+
+// !!----------- Sitemap Route -----------!! //
+Route::prefix('/')
+    ->name('sitemap.')
+    ->controller(SiteMapController::class)
+    ->group(function() {
+        Route::get('/site_map.xml', 'index')->name('index');
+    });
+
+    
 // !!----------- Homepage Route -----------!! //
 Route::prefix('/')
     ->name('home.')
