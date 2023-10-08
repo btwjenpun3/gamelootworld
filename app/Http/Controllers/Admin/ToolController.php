@@ -22,11 +22,7 @@ class ToolController extends Controller
         $posts = Post::all();
         $now = Carbon::now()->format('Y-m-d H:i:s');
         foreach($posts as $post) {
-            if($post->end_date == 'N/A') {
-                $post->update([
-                    'status' => 'Active'
-                ]);
-            } elseif ($post->end_date <= $now) {
+            if ($post->end_date <= $now) {
                 $post->update([
                     'status' => 'Expired'
                 ]);
