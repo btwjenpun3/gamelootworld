@@ -12,7 +12,7 @@ class HomeController extends Controller
         $posts = Post::where('platforms', 'LIKE', '%'.$name.'%')
             ->where('type', 'Game')
             ->orderByRaw("CASE WHEN status = 'Active' THEN 1 ELSE 2 END")
-            ->orderBy('id', 'asc')
+            ->orderBy('created_at', 'desc')
             ->limit(4)
             ->get();   
         return $posts;
@@ -21,7 +21,7 @@ class HomeController extends Controller
     public function homepageDlcs() {
         $posts = Post::where('type', 'DLC')
         ->limit(4)->orderByRaw("CASE WHEN status = 'Active' THEN 1 ELSE 2 END")
-        ->orderBy('id', 'asc')
+        ->orderBy('created_at', 'desc')
         ->get();   
         return $posts;
     }
