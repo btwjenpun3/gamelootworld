@@ -50,17 +50,11 @@
                                         <a href="{{ route('loot.index', ['slug' => $data->slug]) }}">
                                             <div class="product__item__pic set-bg"
                                                 data-setbg="{{ asset('/storage/post/images/' . $data->image) }}">
-                                                @if ($data->worth >= 'N/A' && $data->status == 'Active')
-                                                    <div class="standard">{{ $data->worth }}</div>
-                                                @elseif($data->status == 'Expired')
-                                                    <div class="expired">Expired</div>
-                                                @elseif ($data->worth >= '0' && $data->worth <= '4.99')
-                                                    <div class="standard">${{ $data->worth }}</div>
-                                                @elseif ($data->worth >= '5' && $data->worth <= '9.99')
-                                                    <div class="epic">${{ $data->worth }}</div>
-                                                @elseif ($data->worth >= '10')
-                                                    <div class="legendary">${{ $data->worth }}</div>
-                                                @endif
+                                                @php
+                                                    $call = new App\Http\Controllers\HomeController();
+                                                    $price = $call->priceDisplay($data->worth, $data->status);
+                                                @endphp
+                                                {{ $price }}
                                             </div>
                                         </a>
                                         <div class="product__item__text">

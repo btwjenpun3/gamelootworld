@@ -31,15 +31,11 @@
                                 <span>{{ $platforms }}</span>
                             </div>
                             <div class="price__item__pic">
-                                @if ($worth == 'N/A')
-                                    <div class="standard">{{ $worth }}</div>
-                                @elseif ($worth >= '0' && $worth <= '4.99')
-                                    <div class="standard">${{ $worth }}</div>
-                                @elseif ($worth >= '5' && $worth <= '9.99')
-                                    <div class="epic">${{ $worth }}</div>
-                                @elseif ($worth >= '10')
-                                    <div class="legendary">${{ $worth }}</div>
-                                @endif
+                                @php
+                                    $call = new App\Http\Controllers\HomeController();
+                                    $price = $call->priceDisplay($worth, $status);
+                                @endphp
+                                {{ $price }}
                             </div>
                             <p>{{ $description }}</p>
                             <div class="anime__details__text mb-3">
@@ -110,8 +106,7 @@
                             </form>
                         @else
                             <a href="{{ route('login.index') }}"><button class="btn btn-primary"><i class="fa fa-lock"></i>
-                                    Please Login
-                                    First</button></a>
+                                    Please Login First</button></a>
                         @endif
                     </div>
                 </div>
