@@ -13,17 +13,9 @@
                 <div class="header__nav">
                     <nav class="header__menu mobile-menu">
                         <ul>
-                            <li class="active"><a href="{{ route('home.index') }}">Home</a></li>
-                            <li><a href="#">Categories <span class="arrow_carrot-down"></span></a>
-                                <ul class="dropdown">
-                                    <li><a href="{{ route('loots.games') }}">All Games</a></li>
-                                    <li><a href="{{ route('loots.dlcs') }}">All DLCs</a></li>
-                                    <li><a href="{{ route('loots.steam') }}">Steam</a></li>
-                                    <li><a href="{{ route('loots.epic') }}">Epic Store</a></li>
-                                    <li><a href="{{ route('loots.gog') }}">GOG</a></li>
-                                    <li><a href="{{ route('loots.itch') }}">Itch.io</a></li>
-                                </ul>
-                            </li>
+                            <li><a href="{{ route('home.index') }}">Home</a></li>
+                            <li><a href="{{ route('loots.games') }}">Games</a></li>
+                            <li><a href="{{ route('loots.dlcs') }}">DLCs</a></li>
                             <li><a href="#">Platforms <span class="arrow_carrot-down"></span></a>
                                 <ul class="dropdown">
                                     <x-global-platform />
