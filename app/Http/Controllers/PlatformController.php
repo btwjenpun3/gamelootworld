@@ -11,7 +11,7 @@ class PlatformController extends Controller
         $data = Platform::where('slug', $request->slug)->get();
         $platform = $data->first()->name;
         foreach($data as $post) {
-            $posts = $post->posts()->paginate(12);
+            $posts = $post->posts()->latest()->paginate(12);
         }
         return view('Pages.Platforms.index', [
             'title' => 'Platform',
