@@ -12,7 +12,6 @@ class TelegramController extends Controller
 {
     public function setWebhook() {
         $response = Telegram::setWebhook(['url' => env('TELEGRAM_WEBHOOK_URL')]);
-        dd($response);
     }    
 
     public function commandHandlerWebHook() {

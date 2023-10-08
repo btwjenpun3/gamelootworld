@@ -18,12 +18,13 @@ class SingleBlogController extends Controller
             $comment->diffTime = $this->diffTime($comment->created_at);
         }
         $relatedPosts = Post::where('platforms', 'LIKE', '%'.$data->platforms.'%')->limit(4)->get();        
+        $platforms = $data->platforms()->get();
         return view('Pages.Single Blog.index', [
             'id' => $data->id,
             'title' => $data->title,
             'image' => $data->image,
             'worth' => $data->worth,
-            'platforms' => $data->platforms,
+            'platforms' => $platforms,
             'description' => $data->description,
             'instructions' => preg_split('/(\d+\.) /', $data->instructions, -1, PREG_SPLIT_NO_EMPTY),
             'url' => $data->open_giveaway_url,

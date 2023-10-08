@@ -28,7 +28,21 @@
                         <div class="anime__details__text">
                             <div class="anime__details__title">
                                 <h3>{{ $title }} </h3>
-                                <span>{{ $platforms }}</span>
+                                <span>
+                                    @foreach ($platforms as $platform)
+                                        <a href="{{ route('platforms.index', ['slug' => $platform->slug]) }}"
+                                            style="list-style: none;
+                                            font-size: 12px;
+                                            color: #ffffff;
+                                            font-weight: 700;
+                                            padding: 1px 10px;
+                                            background: rgba(255, 255, 255, 0.2);
+                                            border-radius: 50px;
+                                            display: inline-block;">
+                                            {{ $platform->name }}
+                                        </a>
+                                    @endforeach
+                                </span>
                             </div>
                             <div class="price__item__pic">
                                 @php
@@ -51,16 +65,15 @@
                                     <a href="/go/{{ $redirect_url }}" target="_blank" class="follow-btn"><i
                                             class="fa fa-download"></i> Claim Now</a>
                                 @elseif($status == 'Expired')
-                                    <a href="#" class="expired-btn">
-                                        Expired</a>
+                                    <a href="#" class="expired-btn"> Expired</a>
                                 @endif
-                                <a href="#" class="watch-btn" disabled><span>Expired on :
+                                <button class="btn watch-btn" disabled><span>Expired on :
                                         @if ($expired_on == 'N/A')
                                             N/A
                                         @else
                                             {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $expired_on)->format('d F Y') }}
                                         @endif
-                                    </span></a>
+                                    </span></button>
                             </div>
                         </div>
                     </div>
