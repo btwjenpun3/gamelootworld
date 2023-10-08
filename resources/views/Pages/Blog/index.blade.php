@@ -91,8 +91,11 @@
                                 <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
                                     <div class="product__item">
                                         <a href="/{{ $data->slug }}">
-                                            <div class="product__item__pic set-bg"
+                                            <div class="product__item__pic set-bg @if ($data->status == 'Expired') expired @endif"
                                                 data-setbg="{{ asset('/storage/post/images/' . $data->image) }}">
+                                                @if ($data->status == 'Expired')
+                                                    <div class="expired-overlay">Expired</div>
+                                                @endif
                                                 @php
                                                     $call = new App\Http\Controllers\HomeController();
                                                     $price = $call->priceDisplay($data->worth, $data->status);
@@ -111,7 +114,12 @@
                                                     </a>
                                                 @endforeach
                                             </ul>
-                                            <h5><a href="/{{ $data->slug }}">{{ $data->title }}</a></h5>
+                                            <h5><a href="/{{ $data->slug }}">
+                                                    @if ($data->status == 'Expired')
+                                                        <strong style="color:red;">(Expired)</strong>
+                                                    @endif
+                                                    {{ $data->title }}
+                                                </a></h5>
                                         </div>
                                     </div>
                                 </div>

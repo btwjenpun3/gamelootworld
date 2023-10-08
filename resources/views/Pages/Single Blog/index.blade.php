@@ -27,7 +27,12 @@
                     <div class="col-lg-9">
                         <div class="anime__details__text">
                             <div class="anime__details__title">
-                                <h3>{{ $title }} </h3>
+                                <h3>
+                                    @if ($status == 'Expired')
+                                        <strong style="color:red;">(Expired)</strong>
+                                    @endif
+                                    {{ $title }}
+                                </h3>
                                 <span>
                                     @foreach ($platforms as $platform)
                                         <a href="{{ route('platforms.index', ['slug' => $platform->slug]) }}"

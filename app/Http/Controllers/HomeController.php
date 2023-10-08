@@ -22,7 +22,7 @@ class HomeController extends Controller
         if ($price >= 'N/A' && $status == 'Active')
            echo '';
         elseif($status == 'Expired')
-            echo '<div class="expired">Expired</div>';
+            echo '';
         elseif ($price >= '0' && $price <= '4.99')
             echo '<div class="standard">$' . $price . '</div>';
         elseif ($price >= '5' && $price <= '9.99')

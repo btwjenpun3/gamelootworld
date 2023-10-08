@@ -142,10 +142,28 @@ ol {
 	content: "";
 }
 
-.set-bg {
+.set-bg {	
 	background-repeat: no-repeat;
 	background-size: cover;
-	background-position: left center;
+	background-position: center center;
+}
+
+.expired {
+	filter: grayscale(100%);
+}
+
+.expired-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.8); /* Warna latar belakang dengan opasitas */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
 }
 
 .set-related-bg {
