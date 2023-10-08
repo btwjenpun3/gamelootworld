@@ -9,12 +9,12 @@ use App\Models\Post;
 class HomeController extends Controller
 {
     public function homepagePosts($name) {
-        $posts = Post::where('platforms', 'LIKE', '%'.$name.'%')->where('type', 'Game')->latest()->limit(4)->get();   
+        $posts = Post::where('platforms', 'LIKE', '%'.$name.'%')->where('type', 'Game')->orderByRaw("CASE WHEN status = 'Active' THEN 1 ELSE 2 END")->orderBy('id', 'asc')->limit(4)->get();   
         return $posts;
     }
 
     public function homepageDlcs($name) {
-        $posts = Post::where('type', 'DLC')->limit(4)->latest()->get();   
+        $posts = Post::where('type', 'DLC')->limit(4)->orderByRaw("CASE WHEN status = 'Active' THEN 1 ELSE 2 END")->orderBy('id', 'asc')->get();   
         return $posts;
     }
 
