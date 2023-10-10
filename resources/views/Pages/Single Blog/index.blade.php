@@ -19,6 +19,16 @@
     <section class="anime-details spad">
         <div class="container">
             <div class="anime__details__content">
+                @if (session()->has('title'))
+                    <div class="alert alert-success">
+                        <strong>{{ session('title') }}</strong> was added to your collections.
+                    </div>
+                @endif
+                @if (session()->has('single_page_title'))
+                    <div class="alert alert-warning">
+                        <strong>{{ session('single_page_title') }}</strong> was removed from your collections.
+                    </div>
+                @endif
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="anime__details__pic set-bg" data-setbg="{{ asset('/storage/post/images/' . $image) }}">
@@ -33,6 +43,19 @@
                                     @endif
                                     {{ $title }}
                                 </h3>
+                                @if (isset($collection))
+                                    <a href="{{ route('collection.single_page_destroy', ['slug' => $slug]) }}">
+                                        <button class="btn btn-outline-secondary mb-3">
+                                            Remove from Collection
+                                        </button>
+                                    </a>
+                                @else
+                                    <a href="{{ route('collection.add', ['slug' => $slug]) }}">
+                                        <button class="btn btn-outline-secondary mb-3">
+                                            <i class="fa fa-bookmark"></i> Add to Collection
+                                        </button>
+                                    </a>
+                                @endif
                                 <span>
                                     @foreach ($platforms as $platform)
                                         <a href="{{ route('platforms.index', ['slug' => $platform->slug]) }}"
@@ -67,18 +90,20 @@
                             </ol>
                             <div class="anime__details__btn mt-4">
                                 @if ($status == 'Active')
-                                    <a href="/go/{{ $redirect_url }}" target="_blank" class="follow-btn"><i
-                                            class="fa fa-download"></i> Claim Now</a>
+                                    <a href="{{ route('redirect', ['url' => $redirect_url]) }}" target="_blank"
+                                        class="follow-btn"><i class="fa fa-download"></i> Claim Now</a>
                                 @elseif($status == 'Expired')
                                     <a href="#" class="expired-btn"> Expired</a>
                                 @endif
-                                <button class="btn watch-btn" disabled><span>Expired on :
+                                <button class="btn watch-btn" disabled>
+                                    <span>Expired on :
                                         @if ($expired_on == 'N/A')
                                             N/A
                                         @else
                                             {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $expired_on)->format('d F Y') }}
                                         @endif
-                                    </span></button>
+                                    </span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -136,7 +161,8 @@
                         @foreach ($related_posts as $post)
                             <div class="product__sidebar__view__item set-related-bg"
                                 data-serelatedtbg="{{ asset('/storage/post/images/' . $post->image) }}">
-                                <h5><a href="/{{ $post->slug }}">{{ $post->title }}</a></h5>
+                                <h5><a href="{{ route('loot.index', ['slug' => $post->slug]) }}">{{ $post->title }}</a>
+                                </h5>
                             </div>
                         @endforeach
                     </div>

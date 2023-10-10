@@ -35,7 +35,7 @@
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="{{ route('collection.index') }}"
                                 style="color:black;font-size:15px;"><i class="fa fa-briefcase"></i>
-                                My Collections <code>(soon)</code></a>
+                                My Collections</a>
                             <a class="dropdown-item" href="#" style="color:black;font-size:15px;"><i
                                     class="fa fa-cog"></i> Settings <code>(soon)</code>
                             </a>

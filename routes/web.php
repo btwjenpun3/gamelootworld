@@ -148,7 +148,7 @@ Route::prefix('/auth/private/admin')
         });        
 
 // !!----------- Redirect Route -----------!! //
-Route::get('/go/{url}', [UrlController::class, 'urlRedirect']);
+Route::get('/go/{url}', [UrlController::class, 'urlRedirect'])->name('redirect');
 
 // !!----------- User Route -----------!! //
 Route::prefix('/user')
@@ -175,7 +175,9 @@ Route::prefix('/user/collection')
     ->controller(CollectionController::class)
     ->group(function() {
         Route::get('/', 'index')->name('index');
-        Route::get('/add/{id}', 'add')->name('add');
+        Route::get('/add/{slug}', 'add')->name('add');
+        Route::get('/delete/{slug}', 'destroy')->name('destroy');
+        Route::get('/loot/delete/{slug}', 'singlePageDestroy')->name('single_page_destroy');
     });
 
 Route::prefix('/user/comment')

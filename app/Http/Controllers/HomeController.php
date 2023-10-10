@@ -7,25 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 
 class HomeController extends Controller
-{
-    public function homepagePosts($name) {
-        $posts = Post::where('platforms', 'LIKE', '%'.$name.'%')
-            ->where('type', 'Game')
-            ->orderByRaw("CASE WHEN status = 'Active' THEN 1 ELSE 2 END")
-            ->orderBy('created_at', 'desc')
-            ->limit(4)
-            ->get();   
-        return $posts;
-    }
-
-    public function homepageDlcs() {
-        $posts = Post::where('type', 'DLC')
-        ->limit(4)->orderByRaw("CASE WHEN status = 'Active' THEN 1 ELSE 2 END")
-        ->orderBy('created_at', 'desc')
-        ->get();   
-        return $posts;
-    }
-
+{   
     public function priceDisplay($price, $status) {
         if ($price >= 'N/A' && $status == 'Active')
            echo '';
@@ -42,11 +24,8 @@ class HomeController extends Controller
     public function index() { 
         // $price = $this->priceDisplay();
         return view('Pages.Home.index', [
-            'steams' => $this->homepagePosts('Steam'),
-            'epics' => $this->homepagePosts('Epic'),
-            'dlcs' => $this->homepageDlcs(),
-            'gogs' => $this->homepagePosts('GOG'),
-            'itchs' => $this->homepagePosts('Itch'),
+            'title' => 'Homepage',
+            'datas' => Post::orderByRaw("CASE WHEN status = 'Active' THEN 1 ELSE 2 END")->orderBy('created_at', 'desc')->paginate(20)
         ]);       
     }    
 }

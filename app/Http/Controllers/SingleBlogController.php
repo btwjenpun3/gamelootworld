@@ -19,6 +19,7 @@ class SingleBlogController extends Controller
         }
         $relatedPosts = Post::where('platforms', 'LIKE', '%'.$data->platforms.'%')->limit(4)->get();        
         $platforms = $data->platforms()->get();
+        $collection = $data->users()->where('user_id', auth()->id())->first();
         return view('Pages.Single Blog.index', [
             'id' => $data->id,
             'title' => $data->title,
@@ -34,7 +35,8 @@ class SingleBlogController extends Controller
             'expired_on' => $data->end_date,
             'status' => $data->status,
             'comments' => $comments,
-            'slug' => $slug
+            'slug' => $slug,
+            'collection' => $collection
         ]);
     }
 

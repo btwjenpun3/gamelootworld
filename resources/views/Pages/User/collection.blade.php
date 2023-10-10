@@ -1,6 +1,20 @@
 @extends('Layouts.Home.home')
 
 @section('content')
+    <!-- Breadcrumb Begin -->
+    <div class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__links">
+                        <a href="{{ route('home.index') }}"><i class="fa fa-home"></i> Home</a>
+                        <span>{{ $title }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
     <section class="product spad">
         <div class="container">
             <div class="row">
@@ -13,52 +27,53 @@
                                 </div>
                             </div>
                         </div>
+                        @if (session()->has('title'))
+                            <div class="alert alert-warning">
+                                <strong>{{ session('title') }}</strong> was removed from your collections.
+                            </div>
+                        @endif
                         <div class="row">
                             @foreach ($collections as $collection)
                                 <div class="col-lg-3 col-md-6 col-sm-6">
                                     <div class="product__item">
                                         <a href="{{ route('loot.index', ['slug' => $collection->slug]) }}">
-                                            <div class="product__item__pic set-bg"
+                                            <div class="product__item__pic set-bg @if ($collection->status == 'Expired') expired @endif"
                                                 data-setbg="{{ asset('/storage/post/images/' . $collection->image) }}">
-                                                @if ($collection->worth >= 'N/A' && $collection->status == 'Active')
-                                                    <div class="standard">{{ $collection->worth }}</div>
-                                                @elseif($collection->status == 'Expired')
-                                                    <div class="expired">Expired</div>
-                                                @elseif ($collection->worth >= '0' && $collection->worth <= '4.99')
-                                                    <div class="standard">${{ $collection->worth }}</div>
-                                                @elseif ($collection->worth >= '5' && $collection->worth <= '9.99')
-                                                    <div class="epic">${{ $collection->worth }}</div>
-                                                @elseif ($collection->worth >= '10')
-                                                    <div class="legendary">${{ $collection->worth }}</div>
+                                                @if ($collection->status == 'Expired')
+                                                    <div class="expired-overlay">Expired</div>
                                                 @endif
-                                                {{-- <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                            <div class="view"><i class="fa fa-eye"></i> 9141</div> --}}
+                                                @php
+                                                    $call = new App\Http\Controllers\HomeController();
+                                                    $price = $call->priceDisplay($collection->worth, $collection->status);
+                                                @endphp
+                                                {{ $price }}
                                             </div>
                                         </a>
                                         <div class="product__item__text">
                                             <ul>
                                                 @php
-                                                    $platforms = explode(',', $collection->platforms);
+                                                    $platforms = $collection->platforms()->get();
                                                 @endphp
                                                 @foreach ($platforms as $platform)
-                                                    <li>{{ $platform }}</li>
+                                                    <a href="{{ route('platforms.index', ['slug' => $platform->slug]) }}">
+                                                        <li>{{ $platform->name }}</li>
+                                                    </a>
                                                 @endforeach
                                             </ul>
-                                            <h5><a
-                                                    href="{{ route('loot.index', ['slug' => $collection->slug]) }}">{{ $collection->title }}</a>
+                                            <h5><a href="{{ route('loot.index', ['slug' => $collection->slug]) }}">
+                                                    @if ($collection->status == 'Expired')
+                                                        <strong style="color:red;">(Expired)</strong>
+                                                    @endif
+                                                    {{ $collection->title }}
+                                                </a>
                                             </h5>
                                             <div class="col-md-12 mt-2">
                                                 <div class="row">
-                                                    <div class="col-md-2">
-                                                        <a href="{{ route('collection.add', ['id' => $collection->id]) }}">
-                                                            <button class="btn btn-secondary"><i
-                                                                    class="fa fa-minus"></i></button></a>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <a href="{{ route('loot.index', ['slug' => $collection->slug]) }}"><button
-                                                                class="btn btn-success">Get
-                                                                Loot</button></a>
-                                                    </div>
+                                                    <a
+                                                        href="{{ route('collection.destroy', ['slug' => $collection->slug]) }}">
+                                                        <button class="btn btn-warning"><i class="fa fa-minus"></i>
+                                                            Remove</button>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
