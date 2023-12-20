@@ -10,13 +10,13 @@ use Illuminate\Support\Facades\Crypt;
 class UrlController extends Controller
 {
     public function generateUpstreamUrlToOwnUrl($url) {
-        $cryptedUrl = Crypt::encrypt($url);
-        $getLastCharacters = substr($cryptedUrl, 20, 6);
+        $cryptedUrl         = Crypt::encrypt($url);
+        $getLastCharacters  = substr($cryptedUrl, 20, 6);
         return $getLastCharacters;
     }
 
     public function urlRedirect(Request $request){
-        $getUrl = $request->url;
+        $getUrl      = $request->url;
         $upstreamUrl = Post::where('redirect_url', $getUrl)->first();
         if(auth()->check()) {
             UserPost::create([

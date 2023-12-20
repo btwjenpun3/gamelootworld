@@ -16,14 +16,14 @@ class UpdateCommand extends Command
         $update = new FetchController();
         $responses = $update->updateGameContentFromUpstreamToTelegram();        
         if(isset($responses['titles'])){
-            $titles = $responses['titles'];
-            $links =$responses['links'];
-            $message = "Postingan berhasil di update.\n\n";
+            $titles     = $responses['titles'];
+            $links      = $responses['links'];
+            $message    = "Postingan berhasil di update.\n\n";
             foreach ($titles as $index => $title) {
                 // Pastikan ada elemen yang sesuai dalam array $links
                 if (isset($links[$index])) {
-                    $link = $links[$index];
-                    $message .= '- ' . $title . ' (' . $link . ")\n\n";
+                    $link       = $links[$index];
+                    $message   .= '- ' . $title . ' (' . $link . ")\n\n";
                 }
             }
             $this->replyWithMessage([

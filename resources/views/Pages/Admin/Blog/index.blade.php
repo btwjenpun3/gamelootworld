@@ -28,6 +28,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th>Src. ID</th>
                             <th>Title</th>
                             <th>Published Date</th>
                             <th>End Date</th>
@@ -52,6 +53,10 @@
                 ajax: '{{ route('admin.datatable.posts') }}',
                 columns: [{
                         data: 'id',
+                    },
+                    {
+                        data: 'source_id',
+
                     },
                     {
                         data: 'title',
@@ -101,7 +106,7 @@
                 ],
                 order: [
                     // Urutkan berdasarkan kolom 'created_id' secara menaik (asc)
-                    [0, 'asc'] // Ganti dengan indeks kolom 'created_id' yang sesuai
+                    [0, 'desc'] // Ganti dengan indeks kolom 'created_id' yang sesuai
                 ]
             });
         });
