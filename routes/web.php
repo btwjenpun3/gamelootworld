@@ -158,6 +158,8 @@ Route::prefix('/user')
         Route::get('/login', 'index')->name('index')->middleware('islogin');
         Route::post('/login', 'login')->name('login')->middleware('islogin');
         Route::get('/logout', 'logout')->name('logout');
+        Route::get('/oauth/google', 'redirectToGoogle')->name('redirectToGoogle');
+        Route::get('/oauth/google/callback', 'handleGoogleCallback');
     });
 
 Route::prefix('/user/register')
